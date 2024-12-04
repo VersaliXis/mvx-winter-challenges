@@ -1,7 +1,10 @@
 from pathlib import Path
 import sys
+import datetime
+
 from multiversx_sdk import Transaction, TransactionComputer, AccountNonceHolder, ApiNetworkProvider, Mnemonic, Address, UserPEM, UserSigner
 from multiversx_sdk.core.address import get_shard_of_pubkey
+
 from use_faucet import request_testnet_EGLD
 from transaction_helper import *
 from const import *
@@ -18,7 +21,7 @@ def generate_and_fill_wallets():
     for shard_id in AVAILABLE_SHARDS:
         for i in range(3):
             address, mnemonic = new_mnemonic_in_shard(i, shard_id)
-            print(f"\n\nGenerated {address} in shard {shard_id}")
+            print(f"\n\nGenerated {address} on shard {shard_id}")
             request_testnet_EGLD(address)
 
 #Create a new mnemonic in a given shard
@@ -40,14 +43,14 @@ def new_mnemonic_in_shard(wallet_id: int, shard_index: int) -> (str, Mnemonic):
 if __name__ == "__main__":
     argv = sys.argv
     if len(argv) != 2:
-        print("usage: python main.py <date (eg 3d for 3 december)>")
+        print(f"{datetime.datetime.now()} Usage: python main.py <date (eg 3d for 3 december)>")
         sys.exit(1)
     match argv[1]:
         case "3d":
-            print("Generating and requesting faucet for three new wallets on shard 0, 1 and 2 on Testnet")
+            print(f"{datetime.datetime.now()} Generating and requesting faucet for three new wallets on shard 0, 1 and 2 on Testnet")
             generate_and_fill_wallets()
         case "4d":
-            print("Issuing 100mil WINTER-xx tokens on each address")
+            print(f"{datetime.datetime.now()} Issuing 3x 100mil WINTER-xx tokens on each address")
             issue_token()
         case _:
-            print("unrecognized date code: usage date+first letter of month\n eg '3d' for 3 december")
+            print(f"{datetime.datetime.now()} Unrecognized date code: usage date+first letter of month\n eg '3d' for 3 december")
