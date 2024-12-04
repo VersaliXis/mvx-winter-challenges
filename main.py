@@ -22,6 +22,7 @@ def generate_and_fill_wallets():
         for i in range(3):
             address, mnemonic = new_mnemonic_in_shard(i, shard_id)
             print(f"\n\nGenerated {address} on shard {shard_id}")
+            print(f"Check on explorer {EXPLORER_ADDRESS}accounts/{address}")
             request_testnet_EGLD(address)
 
 #Create a new mnemonic in a given shard

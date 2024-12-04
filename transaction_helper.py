@@ -31,4 +31,5 @@ def issue_token():
                 transaction_computer = TransactionComputer()  
                 transaction.signature = signer.sign(transaction_computer.compute_bytes_for_signing(transaction))
                 hash = PROVIDER.send_transaction(transaction)
-                print(f"#{i} Transaction hash for {wallet_id} on shard {shard_id}:", hash)
+                #print(f"#{i} Transaction hash for {wallet_id} on shard {shard_id}:", hash)
+                print(f"Check on explorer {EXPLORER_ADDRESS}transactions/{hash}")
