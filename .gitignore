@@ -1,0 +1,4 @@
+.venv
+wallets/*
+__pycache__
+output/*
