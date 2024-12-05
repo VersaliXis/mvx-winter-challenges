@@ -51,7 +51,7 @@ if __name__ == "__main__":
             print(f"{datetime.datetime.now()} Generating and requesting faucet for three new wallets on shard 0, 1 and 2 on Testnet")
             generate_and_fill_wallets()
         case "4d":
-            print(f"{datetime.datetime.now()} Issuing 3x 100mil WINTER-xx tokens on each address")
+            print(f"{datetime.datetime.now()} Issuing 100mil WINTER-xx tokens on each address")
             issue_token()
         case _:
             print(f"{datetime.datetime.now()} Unrecognized date code: usage date+first letter of month\n eg '3d' for 3 december")

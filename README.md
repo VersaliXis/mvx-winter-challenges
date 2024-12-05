@@ -34,8 +34,8 @@ python3 main.py 4d
 
 ### Explanation
 The script uses the pem previously created and filled.   
-For each of them, it issues 3 tokens with following specs:
-- 100mil tokens
+For each of them, it issues a token with following specs:
+- 100mil supply
 - ticker WINTER-xx 
 - 8 decimals  
 ---
