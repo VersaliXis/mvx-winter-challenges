@@ -15,6 +15,11 @@ class ExceededMaxLoopIterationException(Exception):
     pass
 
 
+def distribute_tokens():
+    for shard_id in AVAILABLE_SHARDS:
+        for wallet_id in range(3):
+            print(f"\nDistribute tokens from wallet #{wallet_id} on shard {shard_id}")
+            send_token(wallet_id, shard_id)
 
 #Generate 3 wallets in each of the shards
 def generate_and_fill_wallets():
@@ -53,5 +58,7 @@ if __name__ == "__main__":
         case "4d":
             print(f"{datetime.datetime.now()} Issuing 100mil WINTER-xx tokens on each address")
             issue_token()
+        case "5d":
+            distribute_tokens()
         case _:
             print(f"{datetime.datetime.now()} Unrecognized date code: usage date+first letter of month\n eg '3d' for 3 december")

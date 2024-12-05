@@ -18,8 +18,25 @@ source [path to venv]/bin/activate
 pip install multiversx-sdk
 ```
 
----
 
+---
+# 5 December
+
+### Use 
+Activate the venv
+```
+source [path to venv]/bin/activate
+```
+Launch the script
+```
+python3 main.py 5d
+```
+
+### Explanation
+The script uses the pem previously created and filled.   
+For each of them, it send 10,000 WINTER-xx tokens to 1,000 random accounts.
+
+---
 # 4 December
 
 ### Use 
@@ -38,8 +55,8 @@ For each of them, it issues a token with following specs:
 - 100mil supply
 - ticker WINTER-xx 
 - 8 decimals  
----
 
+---
 # 3 December
 
 ### Use 
