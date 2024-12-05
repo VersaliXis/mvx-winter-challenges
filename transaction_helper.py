@@ -21,7 +21,7 @@ def issue_token():
                 data=b"issue" + 
                         b"@57696E746572546F6B656E" +#WinterToken
                         b"@57494E544552" +#WINTER
-                        b"@2386f26fc10000" #10000000000000000 (100 mil *10**8)
+                        b"@2386f26fc10000" #10000000000000000 (100 *10**6 *10**8)
                         b"@08" #8 decimals
             ) 
 
@@ -55,7 +55,7 @@ def send_token(wallet_id: int, shard_id: int):
     
     for i in range(10):
         tx_list = []
-        print(f"{i*100}/1000")
+        print(f"{(i+1)*100}/1000")
         #need to split because cannot broadcast more than 100tx at a time
         for j in range(100):
             #generate new address
