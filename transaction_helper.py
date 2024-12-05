@@ -29,7 +29,6 @@ def issue_token():
             transaction_computer = TransactionComputer()  
             transaction.signature = signer.sign(transaction_computer.compute_bytes_for_signing(transaction))
             hash = PROVIDER.send_transaction(transaction)
-            #print(f"#{i} Transaction hash for {wallet_id} on shard {shard_id}:", hash)
             print(f"Check on explorer {EXPLORER_ADDRESS}transactions/{hash}")
 
 def send_token(wallet_id: int, shard_id: int):
@@ -79,3 +78,4 @@ def send_token(wallet_id: int, shard_id: int):
             tx_list.append(transaction)
             hashes = PROVIDER.send_transactions(tx_list)
     print(f"Distribution done. \n Check on explorer {EXPLORER_ADDRESS}accounts/{address.to_bech32()}")
+    print(f"Proof: {EXPLORER_ADDRESS}tokens/{token.identifier}/accounts?size=100")
