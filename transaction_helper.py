@@ -13,12 +13,12 @@ def get_address_of_wallet(wallet_path, wallet_id, shard_id):
     signer = UserSigner.from_pem_file(path)
     pem = UserPEM.from_file(path)
     address = pem.public_key.to_address("erd")
-    return address
+    return address, signer
 
 #Issue 100mil WINTER-xx tokens on each wallets
 def issue_token_transaction(wallet_path, wallet_id, shard_id) -> str:
 
-    address = get_address_of_wallet(wallet_path, wallet_id, shard_id)
+    address, signer = get_address_of_wallet(wallet_path, wallet_id, shard_id)
 
     account_on_network = PROVIDER.get_account(address)
     nonce_holder = AccountNonceHolder(account_on_network.nonce)
@@ -44,7 +44,7 @@ def issue_token_transaction(wallet_path, wallet_id, shard_id) -> str:
 #returns: proof (str) is a link on explorer to check token owners
 def send_token(wallet_path, wallet_id: int, shard_id: int) -> str:
 
-    address = get_address_of_wallet(wallet_path, wallet_id, shard_id)
+    address, signer = get_address_of_wallet(wallet_path, wallet_id, shard_id)
     
     account_on_network = PROVIDER.get_account(address)
     
@@ -95,7 +95,7 @@ def send_token(wallet_path, wallet_id: int, shard_id: int) -> str:
 def get_transactions_of_wallet(wallet_path, wallet_id, shard_id):
     pagination = DefaultPagination()
     pagination.size = 1100
-    address = get_address_of_wallet(wallet_path, wallet_id, shard_id)
+    address, _ = get_address_of_wallet(wallet_path, wallet_id, shard_id)
     account_on_network = PROVIDER.get_account(address)
     transactions = PROVIDER.get_account_transactions(address, pagination)
     transaction_list = []

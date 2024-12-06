@@ -24,6 +24,7 @@ class Chanllenges():
 
     
     ### 6 December
+    #fetch all signed transactions of each wallets
     def get_all_transactions(self):
         transactions = {}
         for shard_id in AVAILABLE_SHARDS:
@@ -36,6 +37,7 @@ class Chanllenges():
             json.dump(transactions, f)
         
         with open(Path(self.output_path / "6d_transactions.txt"), "w") as f:
+            f.write(str(datetime.datetime.now())+"\n")
             for address in transactions:
                 f.write(f"\n\nAddress {address} total transactions fetched: {len(transactions[address])}\n")
                 for tx in transactions[address]:
@@ -108,7 +110,7 @@ class Chanllenges():
             json.dump(proof_list, f)
 
         with open(Path(self.output_path / "3d_wallet_creation.txt"), "w") as f:
-            f.write(str(datetime.datetime.now()))
+            f.write(str(datetime.datetime.now())+"\n")
             for line in proof_list:
                 f.write(line+"\n")
 
