@@ -1,8 +1,6 @@
 from pathlib import Path
 from multiversx_sdk import ApiNetworkProvider
 
-WALLETS_PATH = Path("./wallets")
-OUTPUT_PATH = Path("./output")
 PROVIDER_ADDRESS = "https://testnet-api.multiversx.com/"
 EXPLORER_ADDRESS = "https://testnet-explorer.multiversx.com/"
 

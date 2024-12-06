@@ -1,7 +1,9 @@
 # MVX Winter Challenges
 **Testnet only**  
 
-
+You can check proofs of the challenges in `./output`.  
+It generally contains both a text file and a json file that store explorer links or data.  
+Proofs are named given the date of the challenge.
 
 ## Installation
 Clone

@@ -1,4 +1,6 @@
 .venv
 wallets/*
+wallets-test-only/*
+output-test-only/*
 __pycache__
 output/*
