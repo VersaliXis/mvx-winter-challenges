@@ -20,6 +20,10 @@ source [path to venv]/bin/activate
 pip install multiversx-sdk
 ```
 
+### Proof
+A proof of token distribution is accessible here:  
+`./output/6d_transactions.txt`
+`./output/6d_transactions.json`
 
 ---
 # 5 December
@@ -37,6 +41,11 @@ python3 main.py 5d
 ### Explanation
 The script uses the pem previously created and filled.   
 For each of them, it send 10,000 WINTER-xx tokens to 1,000 random accounts.
+
+### Proof
+A proof of token distribution is accessible here:  
+`./output/5d_token_owners.txt`
+`./output/5d_token_owners.json`
 
 ---
 # 4 December
@@ -58,6 +67,11 @@ For each of them, it issues a token with following specs:
 - ticker WINTER-xx 
 - 8 decimals  
 
+### Proof
+A proof of token creation is accessible here:  
+`./output/4d_transaction_issue_token.txt`
+`./output/4d_transaction_issue_token.json`
+
 ---
 # 3 December
 
@@ -75,4 +89,9 @@ python3 main.py 3d
 The script creates 3 wallets on each of the three shards.  
 It saves their pem in `./wallets/`  
 It then calls the API of the faucet `r3d4.fr` to get 1 EGLD on Testnet  
+
+### Proof
+A proof of wallet creation and *automatic* fauceting is accessible here:  
+`./output/3d_wallet_creation.txt`
+`./output/3d_wallet_creation.json`
 
