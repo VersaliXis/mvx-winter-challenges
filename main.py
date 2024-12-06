@@ -114,7 +114,27 @@ class Chanllenges():
             for line in proof_list:
                 f.write(line+"\n")
 
-    
+    #to be launched manually after fauceting
+    def create_proof_wallet_fauceting(self):
+        proof_list = []
+        for shard_id in AVAILABLE_SHARDS:
+            for wallet_id in range(3):
+                address, transaction_list = get_transactions_of_wallet(self.wallet_path, wallet_id, shard_id, start=0 ,size=1)
+                proof = f"{EXPLORER_ADDRESS}transactions/{transaction_list[0]["hash"]}"
+                proof_list.append(proof)
+
+        with open(Path(self.output_path / "3d_wallet_creation.txt"), "r") as f:
+            prev_lines = f.readlines()
+            print(prev_lines)
+        with open(Path(self.output_path / "3d_wallet_creation.txt"), "w") as f:
+            
+            f.write(str(datetime.datetime.now())+"\n")
+
+            for line in proof_list:
+                f.write(line+"\n")
+            for line in prev_lines:
+                #\n already in line
+                f.write(line)
 
 
 if __name__ == "__main__":
@@ -140,6 +160,8 @@ if __name__ == "__main__":
         case "3d":
             print(f"{datetime.datetime.now()} Generating and requesting faucet for three new wallets on shard 0, 1 and 2 on Testnet")
             chall.generate_and_fill_wallets()
+        case "3d_proof":
+            chall.create_proof_wallet_fauceting()
         case "4d":
             print(f"{datetime.datetime.now()} Issuing 100mil WINTER-xx tokens on each address")
             chall.issue_token()

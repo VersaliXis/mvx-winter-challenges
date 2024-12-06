@@ -4,7 +4,6 @@ from multiversx_sdk import (TransactionsFactoryConfig,
     TransactionComputer, AccountNonceHolder, ApiNetworkProvider, Address, UserPEM, UserSigner)
 from multiversx_sdk.network_providers.config import DefaultPagination
 
-
 from const import *
 import time
 
@@ -92,9 +91,12 @@ def send_token(wallet_path, wallet_id: int, shard_id: int) -> str:
     return f"{EXPLORER_ADDRESS}tokens/{token.identifier}/accounts?size=100"
 
 #returns a list of tx (dicts)
-def get_transactions_of_wallet(wallet_path, wallet_id, shard_id):
+def get_transactions_of_wallet(wallet_path, wallet_id, shard_id, start = 0, size = 1100, order="desc"):
     pagination = DefaultPagination()
-    pagination.size = 1100
+    pagination.start = start
+    pagination.size = size
+    #doesn't seem to work
+    pagination.order = order
     address, _ = get_address_of_wallet(wallet_path, wallet_id, shard_id)
     account_on_network = PROVIDER.get_account(address)
     transactions = PROVIDER.get_account_transactions(address, pagination)
