@@ -3,3 +3,4 @@ wallets/*
 wallets-test-only/*
 output-test-only/*
 __pycache__
+token-issuer-sc/output/*
