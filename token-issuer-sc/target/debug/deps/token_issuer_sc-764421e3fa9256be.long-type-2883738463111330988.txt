@@ -1,0 +1,1 @@
+Tx<TxScEnv<<Self as multiversx_sc::contract_base::ContractBase>::Api>, (), ManagedAddress<<Self as multiversx_sc::contract_base::ContractBase>::Api>, multiversx_sc::types::Egld<&str>, (), (), ()>
