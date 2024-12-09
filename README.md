@@ -19,6 +19,38 @@ Activate the venv and install packages
 source [path to venv]/bin/activate
 pip install multiversx-sdk
 ```
+Rust and sc-meta should be installed.   
+Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-tools/troubleshooting/rust-setup/#installing-rust-and-sc-meta)
+
+---
+# 7 December
+
+### Use 
+```
+cd ./token-issuer-sc
+sc-meta all build
+```
+
+### Explanation
+The smart contract allows users to issue SNOW tokens by calling the `issueTokenSnow` endpoint.
+
+
+---
+# 6 December
+
+### Use 
+Activate the venv
+```
+source [path to venv]/bin/activate
+```
+Launch the script
+```
+python3 main.py 6d
+```
+
+### Explanation
+The script queries the blockchain to retrieve and display the list of transactions for each of the generated account.
+
 
 ### Proof
 A proof of token distribution is accessible here:  
