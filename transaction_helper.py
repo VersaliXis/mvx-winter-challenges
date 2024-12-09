@@ -7,6 +7,7 @@ from multiversx_sdk.network_providers.config import DefaultPagination
 from const import *
 import time
 
+
 def get_address_of_wallet(wallet_path, wallet_id, shard_id):
     path = Path(wallet_path / f"wallet_{wallet_id}_shard_{shard_id}.pem")
     signer = UserSigner.from_pem_file(path)

@@ -22,7 +22,7 @@ class Chanllenges():
         self.wallet_path = Path("./wallets" + suffix)
         self.output_path = Path("./output" + suffix)
 
-    
+
     ### 6 December
     #fetch all signed transactions of each wallets
     def get_all_transactions(self):
@@ -169,5 +169,6 @@ if __name__ == "__main__":
             chall.distribute_tokens()
         case "6d":
             chall.get_all_transactions()
+
         case _:
             print(f"{datetime.datetime.now()} Unrecognized date code: usage date+first letter of month\n eg '3d' for 3 december")
