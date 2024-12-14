@@ -34,10 +34,10 @@ fn account_state(&self, address: &ManagedAddress) -> SetMapper<IssueDataObj<Self
 ```
 
 ### Explanation
-The endpoint allow anyone to query all issued tokens and their initial supply by an address.
+The endpoint allows anyone to query all issued tokens and their initial supply by an address.
 
 ### Proof
-A proof of is accessible in [`token_issuer_sc.rs`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/token-issuer-sc/src/token_issuer_sc.rs)
+A proof of is accessible here: [`token_issuer_sc.rs`](https://github.com/VersaliXis/mvx-winter-challenges/blob/ecaf75240c50ef54ef3fafe2584562101ec22628/token-issuer-sc/src/token_issuer_sc.rs#L27)
 
 ---
 # 8 December
@@ -49,11 +49,10 @@ fn burn_token_snow(&self, token: TokenIdentifier, amount: BigUint) {}
 ```
 
 ### Explanation
-The smart contract allows users to burn SNOW tokens by calling the `burnTokenSnow` endpoint and sending specifying the amount to burn.
+The smart contract allows any user to burn any SNOW tokens by calling the `burnTokenSnow` endpoint and specifying the amount to burn.
 
 ### Proof
-A proof of token burning is accessible here:  
-`./output/8d.md`
+A proof of token burning is accessible here: [`./output/8d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/8d.md)
 
 ---
 # 7 December
@@ -71,8 +70,9 @@ The user chooses initial supply.
 It uses a callback in order to save the issued token identifier.
 
 ### Proof
-A proof of token issuance is accessible here:  
-`./output/7d.md`
+A proof of token issuance is accessible here:
+[`./output/7d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/7d.md)
+
 ---
 # 6 December
 
@@ -92,8 +92,8 @@ The script queries the blockchain to retrieve and display the list of transactio
 
 ### Proof
 A proof of token distribution is accessible here:  
-`./output/6d_transactions.txt`
-`./output/6d_transactions.json`
+[`./output/6d.json`](https://raw.githubusercontent.com/VersaliXis/mvx-winter-challenges/refs/heads/main/output/6d.json) or 
+[`./output/6d.txt`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/6d.txt)
 
 ---
 # 5 December
@@ -114,8 +114,8 @@ For each of them, it send 10,000 WINTER-xx tokens to 1,000 random accounts.
 
 ### Proof
 A proof of token distribution is accessible here:  
-`./output/5d_token_owners.txt`
-`./output/5d_token_owners.json`
+[`./output/5d.txt`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/5d.txt) or
+[`./output/5d_token_owners.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/5d.json)
 
 ---
 # 4 December
@@ -139,8 +139,8 @@ For each of them, it issues a token with following specs:
 
 ### Proof
 A proof of token creation is accessible here:  
-`./output/4d_transaction_issue_token.txt`
-`./output/4d_transaction_issue_token.json`
+[`./output/4d.txt`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/4d.txt) or
+[`./output/4d.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/4d.json)
 
 ---
 # 3 December
@@ -162,6 +162,6 @@ It then calls the API of the faucet `r3d4.fr` to get 1 EGLD on Testnet
 
 ### Proof
 A proof of wallet creation and *automatic* fauceting is accessible here:  
-`./output/3d_wallet_creation.txt`
-`./output/3d_wallet_creation.json`
+[`./output/3d.txt`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/3d.txt) or
+[`./output/3d.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/3d.json)
 

@@ -8,3 +8,4 @@ token-issuer-sc/interactions
 token-issuer-sc/target
 token-issuer-sc/wasm
 token-issuer-sc/tests
+output/deploy-testnet.interaction.json
