@@ -11,13 +11,15 @@ pub struct IssueDataObj<M: ManagedTypeApi> {
 
 #[multiversx_sc::contract]
 pub trait TokenIssuerSc:
-{
+{   
+    ///////// Setup ///////// 
     #[init]
     fn init(&self) {}
 
     #[upgrade]
     fn upgrade(&self) {}
 
+    ///////// Storage ///////// 
     #[view(getIssuedTokens)]
     #[storage_mapper("issuedTokens")]
     // Stores each issued token associeted with the address of the endpoint issueTokenSnow caller
@@ -28,6 +30,16 @@ pub trait TokenIssuerSc:
     // Stores each issued token associeted with the address of the endpoint issueTokenSnow caller
     fn account_state(&self, address: &ManagedAddress) -> SetMapper<IssueDataObj<Self::Api>>;
 
+
+    ///////// Endpoints ///////// 
+    #[endpoint(claimTokens)]
+    fn claim_tokens(&self, token: TokenIdentifier) {
+        require!(self.issued_tokens().contains(&token), "Invalid token ID");
+        let esdt_id = EgldOrEsdtTokenIdentifier::esdt(token.clone());
+        let balance = self.blockchain().get_sc_balance(&esdt_id, 0);
+        let caller = self.blockchain().get_caller();
+        let _ = self.send().direct(&caller, &esdt_id, 0, &balance);
+    }
 
     #[endpoint(issueTokenSnow)]
     #[payable("EGLD")]
@@ -60,11 +72,13 @@ pub trait TokenIssuerSc:
 
     #[endpoint(burnTokenSnow)]
     fn burn_token_snow(&self, token: TokenIdentifier, amount: BigUint) {
-        require!(self.issued_tokens().contains(&token), "Token not issued yet");
+        require!(self.issued_tokens().contains(&token), "Invalid token ID");
         require!(self.blockchain().get_sc_balance(&EgldOrEsdtTokenIdentifier::esdt(token.clone()), 0) >= amount, "Burn amount exceeds balance");
         self.send().esdt_local_burn(&token, 0u64, &amount);
     }
 
+
+    ///////// Callbacks ///////// 
     #[callback]
     fn issue_token_callback(
         &self, 
