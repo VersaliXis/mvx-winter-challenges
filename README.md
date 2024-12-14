@@ -7,15 +7,15 @@ Proofs are named given the date of the challenge.
 
 ## Installation
 Clone
-```
+```Bash
 git clone https://github.com/VersaliXis/mvx-winter-challenges.git  
 ```
 Create a venv in the repo
-```
+```Bash
 python -m venv [path to venv] 
 ```
 Activate the venv and install packages
-```
+```Bash
 source [path to venv]/bin/activate
 pip install multiversx-sdk
 ```
@@ -23,40 +23,66 @@ Rust and sc-meta should be installed.
 Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-tools/troubleshooting/rust-setup/#installing-rust-and-sc-meta)
 
 ---
+# 9 December
+
+### Use 
+```Rust
+#[view(getAccountState)]
+#[storage_mapper("accountState")]
+fn account_state(&self, address: &ManagedAddress) -> SetMapper<IssueDataObj<Self::Api>>;
+
+```
+
+### Explanation
+The endpoint allow anyone to query all issued tokens and their initial supply by an address.
+
+### Proof
+A proof of is accessible in [`token_issuer_sc.rs`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/token-issuer-sc/src/token_issuer_sc.rs)
+
+---
 # 8 December
 
 ### Use 
-```
-cd ./token-issuer-sc
-sc-meta all build
+```Rust
+#[endpoint(burnTokenSnow)]
+fn burn_token_snow(&self, token: TokenIdentifier, amount: BigUint) {}
 ```
 
 ### Explanation
 The smart contract allows users to burn SNOW tokens by calling the `burnTokenSnow` endpoint and sending specifying the amount to burn.
 
+### Proof
+A proof of token burning is accessible here:  
+`./output/8d.md`
+
 ---
 # 7 December
 
 ### Use 
-```
-cd ./token-issuer-sc
-sc-meta all build
+```Rust
+#[endpoint(issueTokenSnow)]
+#[payable("EGLD")]
+fn issue_token_snow(&self, amount: BigUint) {}
 ```
 
 ### Explanation
-The smart contract allows users to issue SNOW tokens by calling the `issueTokenSnow` endpoint and sending 0.05 EGLD (current cost to issue a token).
+The smart contract allows any user to issue a new SNOW token by calling the `issueTokenSnow` endpoint and sending 0.05 EGLD (current cost to issue a token).  
+The user chooses initial supply.  
+It uses a callback in order to save the issued token identifier.
 
-
+### Proof
+A proof of token issuance is accessible here:  
+`./output/7d.md`
 ---
 # 6 December
 
 ### Use 
 Activate the venv
-```
+```Bash
 source [path to venv]/bin/activate
 ```
 Launch the script
-```
+```Bash
 python3 main.py 6d
 ```
 
@@ -74,11 +100,11 @@ A proof of token distribution is accessible here:
 
 ### Use 
 Activate the venv
-```
+```Bash
 source [path to venv]/bin/activate
-```
+```Bash
 Launch the script
-```
+```Bash
 python3 main.py 5d
 ```
 
@@ -96,11 +122,11 @@ A proof of token distribution is accessible here:
 
 ### Use 
 Activate the venv
-```
+```Bash
 source [path to venv]/bin/activate
 ```
 Launch the script
-```
+```Bash
 python3 main.py 4d
 ```
 
@@ -121,11 +147,11 @@ A proof of token creation is accessible here:
 
 ### Use 
 Activate the venv
-```
+```Bash
 source [path to venv]/bin/activate
 ```
 Launch the script
-```
+```Bash
 python3 main.py 3d
 ```
 

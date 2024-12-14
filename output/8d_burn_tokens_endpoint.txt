@@ -1,3 +1,0 @@
-contract: https://testnet-explorer.multiversx.com/accounts/erd1qqqqqqqqqqqqqpgqsldu8yr4rynsr6gw22xm7ealggtav4agmjgqpwzhwl
-burnTokenSnow tx: https://testnet-explorer.multiversx.com/transactions/7617c1b64eaf9b40c46ea89422c81788826796ada666e720522776bac8eaaf17
-ESDT balance: https://testnet-explorer.multiversx.com/accounts/erd1qqqqqqqqqqqqqpgqsldu8yr4rynsr6gw22xm7ealggtav4agmjgqpwzhwl/tokens
