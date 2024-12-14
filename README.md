@@ -24,6 +24,27 @@ Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-too
 
 
 ---
+# 11 December
+
+### Use 
+Activate the venv
+```Bash
+source [path to venv]/bin/activate
+```
+Launch the script
+```Bash
+python3 main.py 11d
+```
+
+### Explanation
+The scripts queries all issued tokens by the contract.  
+Then it call the endpoint  `claimTokens` for each of the 9 most recent tokens with each of the 9 wallets created in challenge #1
+
+### Proof
+A proof of is accessible here: [`./output/11d.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/11d.json) and [`./output/11d.txt`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/11d.txt)
+
+
+---
 # 10 December
 
 ### Use 

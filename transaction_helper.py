@@ -1,11 +1,12 @@
 from pathlib import Path
-from multiversx_sdk import (TransactionsFactoryConfig, 
+from multiversx_sdk import ( TransactionsFactoryConfig, 
     TransferTransactionsFactory, Token, Mnemonic, TokenTransfer, Transaction, 
-    TransactionComputer, AccountNonceHolder, ApiNetworkProvider, Address, UserPEM, UserSigner)
+    TransactionComputer, AccountNonceHolder, ApiNetworkProvider, Address, UserPEM, UserSigner, SmartContractTransactionsFactory)
 from multiversx_sdk.network_providers.config import DefaultPagination
-
+from multiversx_sdk.abi import Abi, AbiDefinition
 from const import *
 import time
+
 
 
 def get_address_of_wallet(wallet_path, wallet_id, shard_id):
@@ -14,6 +15,34 @@ def get_address_of_wallet(wallet_path, wallet_id, shard_id):
     pem = UserPEM.from_file(path)
     address = pem.public_key.to_address("erd")
     return address, signer
+
+
+def claim_tokens_for_wallet(wallet_path: str, wallet_id: int, shard_id:int, token: str):
+    address, signer = get_address_of_wallet(wallet_path, wallet_id, shard_id)
+    factory = SmartContractTransactionsFactory(CONFIG)
+    abi = Abi.load(Path(ABI_PATH))
+    factory = SmartContractTransactionsFactory(CONFIG, abi)
+
+    account_on_network = PROVIDER.get_account(address)
+    nonce_holder = AccountNonceHolder(account_on_network.nonce)
+
+    contract_address = Address.new_from_bech32(CONTRACT_ADDRESS)
+
+    args = [token]
+    print("address", address.to_bech32())
+    transaction = factory.create_transaction_for_execute(
+        sender = address,
+        contract = contract_address,
+        gas_limit = 60000000,
+        function = "claimTokens",
+        arguments = args
+    ) 
+    transaction.nonce = nonce_holder.get_nonce_then_increment()
+    transaction_computer = TransactionComputer()  
+    transaction.signature = signer.sign(transaction_computer.compute_bytes_for_signing(transaction))
+    hash = PROVIDER.send_transaction(transaction)
+    print(f"Check on explorer {EXPLORER_ADDRESS}transactions/{hash}")
+    return f"{EXPLORER_ADDRESS}transactions/{hash}"
 
 #Issue 100mil WINTER-xx tokens on each wallets
 def issue_token_transaction(wallet_path, wallet_id, shard_id) -> str:

@@ -6,6 +6,7 @@ import json
 from multiversx_sdk import Transaction, TransactionComputer, AccountNonceHolder, ApiNetworkProvider, Mnemonic, Address, UserPEM, UserSigner
 from multiversx_sdk.core.address import get_shard_of_pubkey
 
+from query_helper import *
 from use_faucet import request_testnet_EGLD
 from transaction_helper import *
 from const import *
@@ -22,6 +23,32 @@ class Chanllenges():
         self.wallet_path = Path("./wallets" + suffix)
         self.output_path = Path("./output" + suffix)
 
+    ### 11 December
+    #claim the minted tokens with each of the 9 accounts
+    def claim_tokens(self):
+        transactions = {}
+        i = 1
+        tokens = query_issued_tokens()
+        if len(tokens) < 2: 
+            print(f"Should have at least 9 issued tokens, have {len(tokens)}")
+            sys.exit(1)
+
+        proof_list = []
+        for shard_id in AVAILABLE_SHARDS:
+            for wallet_id in range(3):
+                print(f"\nClaim tokens {tokens[-i]} for wallet #{wallet_id} on shard {shard_id}")
+                #ensure to vlaim latest token
+                proof = claim_tokens_for_wallet(self.wallet_path, wallet_id, shard_id, tokens[-i])
+                proof_list.append(proof)
+                i+=1
+
+        with open(Path(self.output_path / "11d.json"), "w") as f:
+            json.dump(proof_list, f)
+        
+        with open(Path(self.output_path / "11d.txt"), "w") as f:
+            f.write(str(datetime.datetime.now())+"\n")
+            for line in proof_list:
+                f.write(line+"\n")
 
     ### 6 December
     #fetch all signed transactions of each wallets
@@ -169,6 +196,9 @@ if __name__ == "__main__":
             chall.distribute_tokens()
         case "6d":
             chall.get_all_transactions()
+        case "11d":
+            print(f"{datetime.datetime.now()} Claiming 9 tokens")
+            chall.claim_tokens()
 
         case _:
             print(f"{datetime.datetime.now()} Unrecognized date code: usage date+first letter of month\n eg '3d' for 3 december")
