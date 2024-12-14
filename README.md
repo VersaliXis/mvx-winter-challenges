@@ -23,6 +23,18 @@ Rust and sc-meta should be installed.
 Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-tools/troubleshooting/rust-setup/#installing-rust-and-sc-meta)
 
 ---
+# 8 December
+
+### Use 
+```
+cd ./token-issuer-sc
+sc-meta all build
+```
+
+### Explanation
+The smart contract allows users to burn SNOW tokens by calling the `burnTokenSnow` endpoint and sending specifying the amount to burn.
+
+---
 # 7 December
 
 ### Use 
