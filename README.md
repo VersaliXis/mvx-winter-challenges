@@ -33,10 +33,11 @@ fn claim_tokens(&self, token: TokenIdentifier) {}
 ```
 
 ### Explanation
-The endpoint allows anyone to query all issued tokens and their initial supply by an address.
+The endpoint allows anyone to claim a token issued previously.  
+The contracts checks if the token was issued and if its balance is not empty.
 
 ### Proof
-A proof of is accessible here: [`token_issuer_sc.rs`](https://github.com/VersaliXis/mvx-winter-challenges/blob/ecaf75240c50ef54ef3fafe2584562101ec22628/token-issuer-sc/src/token_issuer_sc.rs#L27)
+A proof of is accessible here: [`./token-issuer-sc/output/token-issuer-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/token-issuer-sc/output/token-issuer-sc.abi.json) and [`./output/10d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/10d.md)
 
 
 ---
@@ -66,7 +67,8 @@ fn burn_token_snow(&self, token: TokenIdentifier, amount: BigUint) {}
 ```
 
 ### Explanation
-The smart contract allows any user to burn any SNOW tokens by calling the `burnTokenSnow` endpoint and specifying the amount to burn.
+The smart contract allows any user to burn any SNOW tokens by calling the `burnTokenSnow` endpoint and specifying the amount to burn.     
+The contract checks if the token was issued and if the burn amount is less or equal balance.
 
 ### Proof
 A proof of token burning is accessible here: [`./output/8d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/8d.md)
@@ -84,7 +86,7 @@ fn issue_token_snow(&self, amount: BigUint) {}
 ### Explanation
 The smart contract allows any user to issue a new SNOW token by calling the `issueTokenSnow` endpoint and sending 0.05 EGLD (current cost to issue a token).  
 The user chooses initial supply.  
-It uses a callback in order to save the issued token identifier.
+It uses a callback in order to save the issued token identifier in a `SetMapper`
 
 ### Proof
 A proof of token issuance is accessible here:
