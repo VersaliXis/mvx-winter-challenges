@@ -2,6 +2,13 @@
 use multiversx_sc::imports::*;
 multiversx_sc::derive_imports!();
 
+#[type_abi]
+#[derive(TopEncode, TopDecode, PartialEq, Debug)]
+pub struct IssueDataObj<M: ManagedTypeApi> {
+	pub issuer: ManagedAddress<M>,
+	pub amount: BigUint<M>
+}
+
 #[multiversx_sc::contract]
 pub trait TokenIssuerSc:
 {
@@ -14,7 +21,7 @@ pub trait TokenIssuerSc:
     #[view(getSnowToken)]
     #[storage_mapper("issuedTokens")]
     // Stores each issued token associeted with the address of the endpoint issueTokenSnow caller
-    fn issued_tokens(&self) -> MapMapper<TokenIdentifier, ManagedAddress>;
+    fn issued_tokens(&self) -> MapMapper<TokenIdentifier, IssueDataObj<Self::Api>>;
 
     #[endpoint(issueTokenSnow)]
     #[payable("EGLD")]
@@ -58,15 +65,16 @@ pub trait TokenIssuerSc:
         caller: &ManagedAddress,
         #[call_result] result: ManagedAsyncCallResult<()>
     ) {
-        let (token_id, returned_tokens) = self.call_value().egld_or_single_fungible_esdt();
+        let (token_id, returned_amount) = self.call_value().egld_or_single_fungible_esdt();
         match result {
             ManagedAsyncCallResult::Ok(()) => {
-                self.issued_tokens().insert(token_id.unwrap_esdt(), caller.clone());
+                let issue_data = IssueDataObj{issuer: caller.clone(), amount: returned_amount};
+                self.issued_tokens().insert(token_id.unwrap_esdt(), issue_data);
             },
             ManagedAsyncCallResult::Err(_) => {
                 // Token returned id EGLD -> issue Failed
-                if token_id.is_egld() && returned_tokens > 0u64 {
-                    self.send().direct_egld(caller, &returned_tokens);
+                if token_id.is_egld() && returned_amount > 0u64 {
+                    self.send().direct_egld(caller, &returned_amount);
                 }
             },
         }
