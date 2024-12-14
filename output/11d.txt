@@ -1,4 +1,6 @@
 2024-12-15 00:37:25.721050
+Contract: https://testnet-explorer.multiversx.com/transactions/38a155d94c1515bf03ff40b75ad58d14bb17ad81fd904aaf56589b080ed90543
+ClaimTokens txs:
 https://testnet-explorer.multiversx.com/transactions/89b0da4f03e118caea6582f2cf5259cca529c86f87e5f2593df339ac780b6572
 https://testnet-explorer.multiversx.com/transactions/889a88f7fb6e03e92730088b3180de98ec2d3631154bb9f4c3fa9775b1941cdd
 https://testnet-explorer.multiversx.com/transactions/86329c5ca20e037e8dfc0fcb5360c6374bf2354ff04faa566093081b01e2afae
