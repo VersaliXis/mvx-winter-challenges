@@ -4,8 +4,9 @@ from multiversx_sdk.abi import Abi
 from pathlib import Path
 from const import *
 
-
-def query_issued_tokens():
+### 11 December
+# Query the endpoint to get all issued tokens 
+def query_issued_tokens() -> list:
     contract = Address.new_from_bech32(CONTRACT_ADDRESS)
     query_runner = QueryRunnerAdapter(ProxyNetworkProvider(PROVIDER_ADDRESS))
 

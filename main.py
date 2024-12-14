@@ -28,8 +28,9 @@ class Chanllenges():
     def claim_tokens(self):
         transactions = {}
         i = 1
+        #query the issued tokens
         tokens = query_issued_tokens()
-        if len(tokens) < 2: 
+        if len(tokens) < 9: 
             print(f"Should have at least 9 issued tokens, have {len(tokens)}")
             sys.exit(1)
 
