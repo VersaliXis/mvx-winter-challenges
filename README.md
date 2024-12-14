@@ -22,6 +22,23 @@ pip install multiversx-sdk
 Rust and sc-meta should be installed.   
 Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-tools/troubleshooting/rust-setup/#installing-rust-and-sc-meta)
 
+
+---
+# 10 December
+
+### Use 
+```Rust
+#[endpoint(claimTokens)]
+fn claim_tokens(&self, token: TokenIdentifier) {}
+```
+
+### Explanation
+The endpoint allows anyone to query all issued tokens and their initial supply by an address.
+
+### Proof
+A proof of is accessible here: [`token_issuer_sc.rs`](https://github.com/VersaliXis/mvx-winter-challenges/blob/ecaf75240c50ef54ef3fafe2584562101ec22628/token-issuer-sc/src/token_issuer_sc.rs#L27)
+
+
 ---
 # 9 December
 

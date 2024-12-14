@@ -36,6 +36,8 @@ pub trait TokenIssuerSc:
     fn claim_tokens(&self, token: TokenIdentifier) {
         require!(self.issued_tokens().contains(&token), "Invalid token ID");
         let esdt_id = EgldOrEsdtTokenIdentifier::esdt(token.clone());
+        require!(self.blockchain().get_sc_balance(&esdt_id, 0)>0, "Null balance");
+        
         let balance = self.blockchain().get_sc_balance(&esdt_id, 0);
         let caller = self.blockchain().get_caller();
         let _ = self.send().direct(&caller, &esdt_id, 0, &balance);
