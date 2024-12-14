@@ -32,7 +32,7 @@ sc-meta all build
 ```
 
 ### Explanation
-The smart contract allows users to issue SNOW tokens by calling the `issueTokenSnow` endpoint.
+The smart contract allows users to issue SNOW tokens by calling the `issueTokenSnow` endpoint and sending 0.05 EGLD (current cost to issue a token).
 
 
 ---

@@ -11,6 +11,9 @@ path = "src/token_issuer_sc.rs"
 [dependencies.multiversx-sc]
 version = "0.54.4"
 
+[dependencies.multiversx-sc-modules]
+version = "0.54.6"
+
 [dev-dependencies]
 num-bigint = "0.4"
 

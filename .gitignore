@@ -4,3 +4,7 @@ wallets-test-only/*
 output-test-only/*
 __pycache__
 token-issuer-sc/output/*
+token-issuer-sc/interactions
+token-issuer-sc/target
+token-issuer-sc/wasm
+token-issuer-sc/tests

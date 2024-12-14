@@ -571,6 +571,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "multiversx-sc-modules"
+version = "0.54.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e67bf42a5cd6319a619e7d9915e0ae6837f693696bc55f3d1ac6b09b01cb48c4"
+dependencies = [
+ "multiversx-sc",
+]
+
+[[package]]
 name = "multiversx-sc-scenario"
 version = "0.54.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -876,6 +885,7 @@ name = "token-issuer-sc"
 version = "0.0.0"
 dependencies = [
  "multiversx-sc",
+ "multiversx-sc-modules",
  "multiversx-sc-scenario",
  "num-bigint",
 ]
