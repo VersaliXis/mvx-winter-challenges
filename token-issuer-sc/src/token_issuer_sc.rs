@@ -1,11 +1,9 @@
 #![no_std]
-#[allow(unused_imports)]
 use multiversx_sc::imports::*;
-
+multiversx_sc::derive_imports!();
 
 #[multiversx_sc::contract]
 pub trait TokenIssuerSc:
-    multiversx_sc_modules::default_issue_callbacks::DefaultIssueCallbacksModule 
 {
     #[init]
     fn init(&self) {}
@@ -14,9 +12,9 @@ pub trait TokenIssuerSc:
     fn upgrade(&self) {}
 
     #[view(getSnowToken)]
-    #[storage_mapper("snowToken")]
-    fn snow_token(&self) -> FungibleTokenMapper;
-    
+    #[storage_mapper("issuedTokens")]
+    // Stores each issued token associeted with the address of the endpoint issueTokenSnow caller
+    fn issued_tokens(&self) -> MapMapper<TokenIdentifier, ManagedAddress>;
 
     #[endpoint(issueTokenSnow)]
     #[payable("EGLD")]
@@ -25,18 +23,52 @@ pub trait TokenIssuerSc:
         let issue_cost = BigUint::from(50_000_000_000_000_000u64);
         let token_display_name = ManagedBuffer::from("SnowToken");
         let token_ticker = ManagedBuffer::from("SNOW");
-        let num_decimals = 8;
+        let num_decimals: usize = 8;
         let initial_supply = amount;
-        self.snow_token().issue(issue_cost,
+        let caller = self.blockchain().get_caller();
+        let _ = self.send().esdt_system_sc_proxy().issue_fungible(issue_cost,
             token_display_name, 
             token_ticker,
             initial_supply, 
-            num_decimals, None);
+            FungibleTokenProperties {
+                    num_decimals: 8usize,
+                    can_freeze: true,
+                    can_wipe: true,
+                    can_pause: true,
+                    can_mint: true,
+                    can_burn: true,
+                    can_change_owner: true,
+                    can_upgrade: true,
+                    can_add_special_roles: true,
+                },
+            ).with_callback(self.callbacks().issue_token_callback(&caller))
+            .async_call_and_exit();
     }
 
     #[endpoint(burnTokenSnow)]
-    fn burn_token_snow(&self, amount: BigUint) {
-        require!(self.snow_token().get_balance() >= amount, "Exceeds held amount");
-        self.snow_token().burn(&amount);
+    fn burn_token_snow(&self, token: TokenIdentifier, amount: BigUint) {
+        require!(self.issued_tokens().contains_key(&token), "Token not issued yet");
+        require!(self.blockchain().get_sc_balance(&EgldOrEsdtTokenIdentifier::esdt(token.clone()), 0) >= amount, "Burn amount exceeds balance");
+        self.send().esdt_local_burn(&token, 0u64, &amount);
+    }
+
+    #[callback]
+    fn issue_token_callback(
+        &self, 
+        caller: &ManagedAddress,
+        #[call_result] result: ManagedAsyncCallResult<()>
+    ) {
+        let (token_id, returned_tokens) = self.call_value().egld_or_single_fungible_esdt();
+        match result {
+            ManagedAsyncCallResult::Ok(()) => {
+                self.issued_tokens().insert(token_id.unwrap_esdt(), caller.clone());
+            },
+            ManagedAsyncCallResult::Err(_) => {
+                // Token returned id EGLD -> issue Failed
+                if token_id.is_egld() && returned_tokens > 0u64 {
+                    self.send().direct_egld(caller, &returned_tokens);
+                }
+            },
+        }
     }
 }
