@@ -26,29 +26,6 @@ Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-too
 # 📅 13 December
 
 ### Use 
-Activate the venv
-```Bash
-source [path to venv]/bin/activate
-```
-Launch the script
-```Bash
-python3 main.py 12d
-```
-
-### Explanation
-The script generates a leaderboard for each token ranking top holders.  
-It then save the leaderboards as a csv file.
-
-### Proof  
-A proof of is accessible here: [`./output/12d.csv`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/12d.csv)  
-Leaderboards are stored one on the top of each other.
-
-
----
-# 📅 12 December
-
-### Use 
-Activate the venv
 ```Rust
 #[endpoint(stakeTokenWinter)]
 #[payable("*")]
@@ -65,6 +42,27 @@ Raises error:
 A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)    
 You can check sample transactions here: [`./output/13d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/13d.md)
 
+
+---
+# 📅 12 December
+
+### Use 
+Activate the venv
+```Bash
+source [path to venv]/bin/activate
+```
+Launch the script
+```Bash
+python3 main.py 12d
+```
+
+### Explanation
+The script generates a leaderboard for each token ranking top holders.  
+It then save the leaderboards as a csv file.
+
+### Proof  
+A proof of is accessible here: [`./output/12d.csv`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/12d.csv)  
+Leaderboards are stored one on the top of each other.
 
 ---
 # 📅 11 December
