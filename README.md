@@ -22,9 +22,8 @@ pip install -r requirements.txt
 Rust and sc-meta should be installed.   
 Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-tools/troubleshooting/rust-setup/#installing-rust-and-sc-meta)
 
-
 ---
-# 12 December
+# 13 December
 
 ### Use 
 Activate the venv
@@ -43,6 +42,26 @@ It then save the leaderboards as a csv file.
 ### Proof
 A proof of is accessible here: [`./output/12d.csv`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/12d.csv)  
 Leaderboards are stored one on the top of each other.
+---
+# 12 December
+
+### Use 
+Activate the venv
+```Rust
+#[endpoint(stakeTokenWinter)]
+#[payable("*")]
+fn stake_token_winter(&self) {}
+```
+
+### Explanation
+The endpoint allows anyone to stake their WINTER-xx token by sending any amount to this endpoint.
+Raises error:
+- if no unique esdt payments
+- if the user has already staked this token
+
+### Proof
+A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)    
+You can check sample transactions here: [`./output/13d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/13d.md)
 ---
 # 11 December
 
