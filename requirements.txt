@@ -1,0 +1,13 @@
+certifi==2024.8.30
+cffi==1.17.1
+charset-normalizer==3.4.0
+cryptography==43.0.1
+idna==3.10
+mnemonic==0.20
+multiversx-sdk==0.19.0
+protobuf==5.29.0
+pycparser==2.22
+pycryptodomex==3.19.1
+PyNaCl==1.5.0
+requests==2.32.3
+urllib3==2.2.3

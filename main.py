@@ -2,6 +2,8 @@ from pathlib import Path
 import sys
 import datetime
 import json
+import time
+import csv
 
 from multiversx_sdk import Transaction, TransactionComputer, AccountNonceHolder, ApiNetworkProvider, Mnemonic, Address, UserPEM, UserSigner
 from multiversx_sdk.core.address import get_shard_of_pubkey
@@ -10,8 +12,7 @@ from query_helper import *
 from use_faucet import request_testnet_EGLD
 from transaction_helper import *
 from const import *
-import time
-import csv
+
 
 class ExceededMaxLoopIterationException(Exception):
     "Raised when the loop exceeds maximum iteration"

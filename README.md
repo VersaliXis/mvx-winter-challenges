@@ -17,7 +17,7 @@ python -m venv [path to venv]
 Activate the venv and install packages
 ```Bash
 source [path to venv]/bin/activate
-pip install multiversx-sdk
+pip install -r requirements.txt
 ```
 Rust and sc-meta should be installed.   
 Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-tools/troubleshooting/rust-setup/#installing-rust-and-sc-meta)
