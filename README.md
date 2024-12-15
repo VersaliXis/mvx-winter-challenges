@@ -1,11 +1,11 @@
-# MVX Winter Challenges
+# ❄ MultiversX Winter Challenges ❄
 **Testnet only**  
 
 You can check proofs of the challenges in `./output`.  
 It generally contains both a text file and a json file that store explorer links or data.  
 Proofs are named given the date of the challenge.
 
-## Installation
+## 🔧 Installation
 Clone
 ```Bash
 git clone https://github.com/VersaliXis/mvx-winter-challenges.git  
@@ -23,7 +23,7 @@ Rust and sc-meta should be installed.
 Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-tools/troubleshooting/rust-setup/#installing-rust-and-sc-meta)
 
 ---
-# 13 December
+# 📅 13 December
 
 ### Use 
 Activate the venv
@@ -39,11 +39,13 @@ python3 main.py 12d
 The script generates a leaderboard for each token ranking top holders.  
 It then save the leaderboards as a csv file.
 
-### Proof
+### Proof  
 A proof of is accessible here: [`./output/12d.csv`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/12d.csv)  
 Leaderboards are stored one on the top of each other.
+
+
 ---
-# 12 December
+# 📅 12 December
 
 ### Use 
 Activate the venv
@@ -62,8 +64,10 @@ Raises error:
 ### Proof
 A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)    
 You can check sample transactions here: [`./output/13d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/13d.md)
+
+
 ---
-# 11 December
+# 📅 11 December
 
 ### Use 
 Activate the venv
@@ -84,7 +88,7 @@ A proof of is accessible here: [`./output/11d.json`](https://github.com/VersaliX
 
 
 ---
-# 10 December
+# 📅 10 December
 
 ### Use 
 ```Rust
@@ -101,7 +105,7 @@ A proof of is accessible here: [`./token-issuer-sc/output/token-issuer-sc.abi.js
 
 
 ---
-# 9 December
+# 📅 9 December
 
 ### Use 
 ```Rust
@@ -118,7 +122,7 @@ The endpoint allows anyone to query all issued tokens and their initial supply b
 A proof of is accessible here: [`token_issuer_sc.rs`](https://github.com/VersaliXis/mvx-winter-challenges/blob/ecaf75240c50ef54ef3fafe2584562101ec22628/token-issuer-sc/src/token_issuer_sc.rs#L27)
 
 ---
-# 8 December
+# 📅 8 December
 
 ### Use 
 ```Rust
@@ -134,7 +138,7 @@ The contract checks if the token was issued and if the burn amount is less or eq
 A proof of token burning is accessible here: [`./output/8d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/8d.md)
 
 ---
-# 7 December
+# 📅 7 December
 
 ### Use 
 ```Rust
@@ -153,7 +157,7 @@ A proof of token issuance is accessible here:
 [`./output/7d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/7d.md)
 
 ---
-# 6 December
+# 📅 6 December
 
 ### Use 
 Activate the venv
@@ -175,7 +179,7 @@ A proof of token distribution is accessible here:
 [`./output/6d.txt`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/6d.txt)
 
 ---
-# 5 December
+# 📅 5 December
 
 ### Use 
 Activate the venv
@@ -197,7 +201,7 @@ A proof of token distribution is accessible here:
 [`./output/5d_token_owners.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/5d.json)
 
 ---
-# 4 December
+# 📅 4 December
 
 ### Use 
 Activate the venv
@@ -222,7 +226,7 @@ A proof of token creation is accessible here:
 [`./output/4d.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/4d.json)
 
 ---
-# 3 December
+# 📅 3 December
 
 ### Use 
 Activate the venv
