@@ -10,7 +10,8 @@ from query_helper import *
 from use_faucet import request_testnet_EGLD
 from transaction_helper import *
 from const import *
-
+import time
+import csv
 
 class ExceededMaxLoopIterationException(Exception):
     "Raised when the loop exceeds maximum iteration"
@@ -23,7 +24,41 @@ class Chanllenges():
         self.wallet_path = Path("./wallets" + suffix)
         self.output_path = Path("./output" + suffix)
 
-    ### 11 December
+    ### 12 December ###
+    #Save leaderboards of WINTER-xx holders by descending balance.
+    def get_leaderboards(self):
+        leaderboards = {}
+        tokens = query_winter_tokens()
+        i = 1
+        for token in tokens:
+            #rate limiting : 5 req/sec
+            time.sleep(0.2)
+            token_id = token["identifier"]
+            print(f"Fetching holders for {token_id} ({i}/{len(tokens)})")
+            leaderboards[token_id] = []
+            holdings =  query_token_holdings(token_id)
+            unsorted_holdings = []
+
+            for holding in holdings:
+                holder = holding["address"]
+                balance = holding["balance"]
+                unsorted_holdings.append((holder, int(balance)))
+            print(f"{len(holdings)} holders found")
+            #sort by descending balance
+            sorted_holdings = sorted(unsorted_holdings, key=lambda x:x[1], reverse = True)
+            leaderboards[token_id] = sorted_holdings
+            i+=1
+
+        #Save leaderboards, token by token  
+        with open(Path(self.output_path / "12d.csv"), 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter=',')
+            for token_id in leaderboards:
+                writer.writerow([token_id])
+                for holding in leaderboards[token_id]:
+                    writer.writerow(holding)
+            print("File saved")
+
+    ### 11 December ###
     #claim the minted tokens with each of the 9 accounts
     def claim_tokens(self):
         transactions = {}
@@ -51,7 +86,7 @@ class Chanllenges():
             for line in proof_list:
                 f.write(line+"\n")
 
-    ### 6 December
+    ### 6 December ###
     #fetch all signed transactions of each wallets
     def get_all_transactions(self):
         transactions = {}
@@ -71,7 +106,7 @@ class Chanllenges():
                 for tx in transactions[address]:
                     f.write(f"nonce: {tx["nonce"]} tx: {EXPLORER_ADDRESS}transactions/{tx["hash"]}\n")
 
-    ### 5 December     
+    ### 5 December ### 
     def distribute_tokens(self):
         proof_list = []
         for shard_id in AVAILABLE_SHARDS:
@@ -89,7 +124,7 @@ class Chanllenges():
                 f.write(line+"\n")
 
 
-    ### 4 December
+    ### 4 December ###
     def issue_token(self):
         proof_list = []
         for shard_id in AVAILABLE_SHARDS:
@@ -105,7 +140,7 @@ class Chanllenges():
             for line in proof_list:
                 f.write(line+"\n")
 
-    ### 3 December
+    ### 3 December ###
     #Generate 3 wallets in each of the shards
     def generate_and_fill_wallets(self):
         proof_list = []
@@ -200,6 +235,7 @@ if __name__ == "__main__":
         case "11d":
             print(f"{datetime.datetime.now()} Claiming 9 tokens")
             chall.claim_tokens()
-
+        case "12d":
+            chall.get_leaderboards()
         case _:
             print(f"{datetime.datetime.now()} Unrecognized date code: usage date+first letter of month\n eg '3d' for 3 december")

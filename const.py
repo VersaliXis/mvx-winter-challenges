@@ -12,3 +12,5 @@ CONFIG = PROVIDER.get_network_config()
 TOKEN_ISSUER_ADDRESS = "erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u"
 CONTRACT_ADDRESS = "erd1qqqqqqqqqqqqqpgqq0fwefctjgjq8nq7j67kkl65c845cpk3dpxqlzwk4l"
 ABI_PATH = "./token-issuer-sc/output/token-issuer-sc.abi.json"
+
+MAX_SIMPLE_QUERY_NUMBER = 10000
