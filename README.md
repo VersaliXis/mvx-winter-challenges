@@ -24,6 +24,26 @@ Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-too
 
 
 ---
+# 12 December
+
+### Use 
+Activate the venv
+```Bash
+source [path to venv]/bin/activate
+```
+Launch the script
+```Bash
+python3 main.py 12d
+```
+
+### Explanation
+The script generates a leaderboard for each token ranking top holders.  
+It then save the leaderboards as a csv file.
+
+### Proof
+A proof of is accessible here: [`./output/12d.csv`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/12d.csv)  
+Leaderboards are stored one on the top of each other.
+---
 # 11 December
 
 ### Use 

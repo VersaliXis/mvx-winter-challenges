@@ -26,7 +26,7 @@ def query_winter_tokens():
     print(f"Found {len(tokens)} WINTER-xx tokens")
     return tokens
 
-#For a given token id, fetch all holders and holded value
+#For a given token id, fetch all holders and held value
 #return: holders = [{"address": "erd...", "amount": "10000"}, ...]
 def query_token_holdings(token_id: str):
     #list of dics containing address and balance
