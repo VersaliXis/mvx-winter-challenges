@@ -1,0 +1,20 @@
+[
+  "checkNoPayment",
+  "getNumArguments",
+  "mBufferAppend",
+  "mBufferAppendBytes",
+  "mBufferCopyByteSlice",
+  "mBufferEq",
+  "mBufferFromBigIntUnsigned",
+  "mBufferGetByteSlice",
+  "mBufferGetLength",
+  "mBufferNew",
+  "mBufferSetBytes",
+  "mBufferStorageLoad",
+  "mBufferStorageStore",
+  "mBufferToBigIntUnsigned",
+  "managedCaller",
+  "managedGetMultiESDTCallValue",
+  "managedSignalError",
+  "signalError"
+]
