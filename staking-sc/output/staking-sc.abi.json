@@ -28,6 +28,28 @@
     "endpoints": [
         {
             "docs": [
+                "Stores a set of (token_id, staked_amount) associated to an address"
+            ],
+            "name": "getStakingPosition",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "StakingPositionObj"
+                }
+            ]
+        },
+        {
+            "docs": [
                 "Allows a user to stake any amount of WINTER-xx token",
                 "Can be called once per token, unless the user has fully unstaked the previous amount"
             ],
@@ -42,5 +64,19 @@
     ],
     "esdtAttributes": [],
     "hasCallback": false,
-    "types": {}
+    "types": {
+        "StakingPositionObj": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "staked_amount",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "stake_block",
+                    "type": "u64"
+                }
+            ]
+        }
+    }
 }
