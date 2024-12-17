@@ -79,7 +79,52 @@
             "outputs": []
         },
         {
+            "name": "setLocalRoles",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
             "name": "burnTokenSnow",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "mintAndSendTokenSnow",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "to",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "mintTokenSnow",
             "mutability": "mutable",
             "inputs": [
                 {

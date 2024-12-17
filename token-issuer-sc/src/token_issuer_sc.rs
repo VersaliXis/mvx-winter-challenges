@@ -32,6 +32,7 @@ pub trait TokenIssuerSc:
 
 
     ///////// Endpoints ///////// 
+    /// Allow a user to claim the total amount of isued tokens
     #[endpoint(claimTokens)]
     fn claim_tokens(&self, token: TokenIdentifier) {
         require!(self.issued_tokens().contains(&token), "Invalid token ID");
@@ -43,6 +44,7 @@ pub trait TokenIssuerSc:
         let _ = self.send().direct(&caller, &esdt_id, 0, &balance);
     }
 
+    /// Allow to issue a SNOW-xx token. Uses a callback to save the token id
     #[endpoint(issueTokenSnow)]
     #[payable("EGLD")]
     fn issue_token_snow(&self, amount: BigUint) {
@@ -72,6 +74,17 @@ pub trait TokenIssuerSc:
             .async_call_and_exit();
     }
 
+    /// Must be called before minting
+    #[endpoint(setLocalRoles)]
+    fn set_local_roles(&self, token: TokenIdentifier) {
+        let roles_iter = [EsdtLocalRole::Mint, EsdtLocalRole::Burn,].into_iter();
+        self.send().esdt_system_sc_proxy().set_special_roles(
+            self.blockchain().get_sc_address(), 
+            token, 
+            roles_iter).async_call_and_exit();
+    }
+
+    /// Allow to burn any amount of token specified
     #[endpoint(burnTokenSnow)]
     fn burn_token_snow(&self, token: TokenIdentifier, amount: BigUint) {
         require!(self.issued_tokens().contains(&token), "Invalid token ID");
@@ -79,7 +92,23 @@ pub trait TokenIssuerSc:
         self.send().esdt_local_burn(&token, 0u64, &amount);
     }
 
+    /// Allows to mint and send minted tokens to an address
+    #[endpoint(mintAndSendTokenSnow)]
+    fn mint_and_send_token_snow(&self, token: &TokenIdentifier, amount: &BigUint, to: &ManagedAddress){
+        self.mint_token_snow(token, amount);
+        self.send().direct_esdt(to, token, 0u64, amount);
+    }
 
+    /// Allows to mint a SNOW-xx token
+    /// Must have called setLocalRoles before
+    #[endpoint(mintTokenSnow)]
+    fn mint_token_snow(&self, token: &TokenIdentifier ,amount: &BigUint) {
+        require!(self.issued_tokens().contains(token), "You must issue before minting");
+        let _ = self.send().esdt_local_mint(token, 0u64, amount);
+    }
+
+    
+    
     ///////// Callbacks ///////// 
     #[callback]
     fn issue_token_callback(
@@ -92,14 +121,31 @@ pub trait TokenIssuerSc:
             ManagedAsyncCallResult::Ok(()) => {
                 let token = token_id.unwrap_esdt();
                 let issue_data = IssueDataObj{token: token.clone(), issued_amount: returned_amount};
-                self.issued_tokens().insert(token);
+                self.issued_tokens().insert(token.clone());
                 self.account_state(&caller).insert(issue_data);
+                
             },
             ManagedAsyncCallResult::Err(_) => {
                 // Token returned id EGLD -> issue Failed
                 if token_id.is_egld() && returned_amount > 0u64 {
                     self.send().direct_egld(caller, &returned_amount);
                 }
+            },
+        }
+    }
+
+    #[callback]
+    fn mint_and_send_callback(&self, 
+        to: &ManagedAddress,
+        #[call_result] result: ManagedAsyncCallResult<()>
+    ) {
+        let (token, minted_amount) = self.call_value().egld_or_single_fungible_esdt();
+        match result {
+            ManagedAsyncCallResult::Ok(()) => {
+                self.send().direct(to, &token, 0u64, &minted_amount);
+            },
+            ManagedAsyncCallResult::Err(_) => {
+                !panic!("Error while trying to mint and send");
             },
         }
     }
