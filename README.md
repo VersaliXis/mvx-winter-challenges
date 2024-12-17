@@ -24,7 +24,7 @@ Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-too
 
 ---
 # 📅 13 December
-
+- ## Stake WINTER tokens
 ### Use 
 ```Rust
 #[endpoint(stakeTokenWinter)]
@@ -45,7 +45,7 @@ You can check sample transactions here: [`./output/13d.md`](https://github.com/V
 
 ---
 # 📅 12 December
-
+- ## Leaderboard of WINTER holders
 ### Use 
 Activate the venv
 ```Bash
@@ -66,7 +66,7 @@ Leaderboards are stored one on the top of each other.
 
 ---
 # 📅 11 December
-
+- ## Claim WINTER tokens
 ### Use 
 Activate the venv
 ```Bash
@@ -87,7 +87,7 @@ A proof of is accessible here: [`./output/11d.json`](https://github.com/VersaliX
 
 ---
 # 📅 10 December
-
+- ## Claim WINTER tokens
 ### Use 
 ```Rust
 #[endpoint(claimTokens)]
@@ -104,7 +104,7 @@ A proof of is accessible here: [`./token-issuer-sc/output/token-issuer-sc.abi.js
 
 ---
 # 📅 9 December
-
+- ## Store SNOW issued amount
 ### Use 
 ```Rust
 #[view(getAccountState)]
@@ -121,7 +121,7 @@ A proof of is accessible here: [`token_issuer_sc.rs`](https://github.com/Versali
 
 ---
 # 📅 8 December
-
+- ## Burn SNOW tokens
 ### Use 
 ```Rust
 #[endpoint(burnTokenSnow)]
@@ -137,7 +137,7 @@ A proof of token burning is accessible here: [`./output/8d.md`](https://github.c
 
 ---
 # 📅 7 December
-
+- ## Issue WINTER tokens
 ### Use 
 ```Rust
 #[endpoint(issueTokenSnow)]
@@ -156,7 +156,7 @@ A proof of token issuance is accessible here:
 
 ---
 # 📅 6 December
-
+- ## Query list of txs
 ### Use 
 Activate the venv
 ```Bash
@@ -178,7 +178,7 @@ A proof of token distribution is accessible here:
 
 ---
 # 📅 5 December
-
+- ## Transfer WINTER tokens
 ### Use 
 Activate the venv
 ```Bash
@@ -200,7 +200,7 @@ A proof of token distribution is accessible here:
 
 ---
 # 📅 4 December
-
+- ## Issue WINTER tokens
 ### Use 
 Activate the venv
 ```Bash
@@ -225,7 +225,7 @@ A proof of token creation is accessible here:
 
 ---
 # 📅 3 December
-
+- ## Create wallets
 ### Use 
 Activate the venv
 ```Bash
