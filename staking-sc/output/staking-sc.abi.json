@@ -84,6 +84,9 @@
             "outputs": []
         },
         {
+            "docs": [
+                "Called to set a SNOW-xx as reward token"
+            ],
             "name": "setRewardToken",
             "mutability": "mutable",
             "inputs": [
@@ -95,6 +98,10 @@
             "outputs": []
         },
         {
+            "docs": [
+                "Called by a WINTER-xx staker. Must specify on which WINTER token to claim.",
+                "Rewards are calculated, and if not null, it calls the endpoint mintAndSend of the SNOW-xx issuer contract "
+            ],
             "name": "claimRewards",
             "mutability": "mutable",
             "inputs": [

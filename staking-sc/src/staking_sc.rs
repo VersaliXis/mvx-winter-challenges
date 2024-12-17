@@ -67,11 +67,14 @@ pub trait TokenIssuerSc:
         staking_pos.set(new_staking_pos);
     }
     
+    /// Called to set a SNOW-xx as reward token
     #[endpoint(setRewardToken)]
     fn set_reward_token(&self, token_id: TokenIdentifier) {
         self.reward_token().set(token_id);
     }
 
+    /// Called by a WINTER-xx staker. Must specify on which WINTER token to claim.
+    /// Rewards are calculated, and if not null, it calls the endpoint mintAndSend of the SNOW-xx issuer contract 
     #[endpoint(claimRewards)]
     fn claim_rewards(&self, token_id: TokenIdentifier) {
         require!(!self.reward_token().is_empty(), "No reward token set. Use setRewardToken");
@@ -100,6 +103,7 @@ pub trait TokenIssuerSc:
         return rewards
     }
 
+    /// Calls by the proxy the SNOW-xx issuer contract
     fn mint_and_distribute_rewards_async(&self, rewards: &BigUint, address: &ManagedAddress) {
         let proxy_address = self.issuer_address().get();
         let mut proxy_instance = self.token_issuer_sc_proxy(proxy_address);
