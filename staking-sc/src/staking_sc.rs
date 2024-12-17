@@ -60,12 +60,18 @@ pub trait TokenIssuerSc:
         let token_id = payment.token_identifier;
         let caller = self.blockchain().get_caller();
         let staking_pos = self.staking_position(&caller, &token_id);
-        
-        require!(staking_pos.is_empty(), "You have already staked that token, you must unstake before.");
-        let current_block = self.blockchain().get_block_nonce();
         let amount = payment.amount;
-        
-        let new_staking_pos = StakingPositionObj{last_interaction_block: current_block, staked_amount: amount};
+        let current_block = self.blockchain().get_block_nonce();
+        let mut new_stake = amount;
+
+        // If user has already an opened position
+        if !staking_pos.is_empty() {
+            new_stake += staking_pos.get().staked_amount;
+        }
+        let new_staking_pos = StakingPositionObj{
+            last_interaction_block: current_block, 
+            staked_amount: new_stake
+        };
         staking_pos.set(new_staking_pos);
     }
     
