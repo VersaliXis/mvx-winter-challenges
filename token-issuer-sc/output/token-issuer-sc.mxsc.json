@@ -55,6 +55,9 @@
                 ]
             },
             {
+                "docs": [
+                    "Allow a user to claim the total amount of isued tokens"
+                ],
                 "name": "claimTokens",
                 "mutability": "mutable",
                 "inputs": [
@@ -66,6 +69,9 @@
                 "outputs": []
             },
             {
+                "docs": [
+                    "Allow to issue a SNOW-xx token. Uses a callback to save the token id"
+                ],
                 "name": "issueTokenSnow",
                 "mutability": "mutable",
                 "payableInTokens": [
@@ -80,6 +86,9 @@
                 "outputs": []
             },
             {
+                "docs": [
+                    "Must be called before minting"
+                ],
                 "name": "setLocalRoles",
                 "mutability": "mutable",
                 "inputs": [
@@ -91,6 +100,9 @@
                 "outputs": []
             },
             {
+                "docs": [
+                    "Allow to burn any amount of token specified"
+                ],
                 "name": "burnTokenSnow",
                 "mutability": "mutable",
                 "inputs": [
@@ -106,6 +118,9 @@
                 "outputs": []
             },
             {
+                "docs": [
+                    "Allows to mint and send minted tokens to an address"
+                ],
                 "name": "mintAndSendTokenSnow",
                 "mutability": "mutable",
                 "inputs": [
@@ -125,6 +140,10 @@
                 "outputs": []
             },
             {
+                "docs": [
+                    "Allows to mint a SNOW-xx token",
+                    "Must have called setLocalRoles before"
+                ],
                 "name": "mintTokenSnow",
                 "mutability": "mutable",
                 "inputs": [

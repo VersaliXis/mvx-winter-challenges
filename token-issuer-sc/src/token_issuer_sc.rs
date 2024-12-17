@@ -123,7 +123,6 @@ pub trait TokenIssuerSc:
                 let issue_data = IssueDataObj{token: token.clone(), issued_amount: returned_amount};
                 self.issued_tokens().insert(token.clone());
                 self.account_state(&caller).insert(issue_data);
-                
             },
             ManagedAsyncCallResult::Err(_) => {
                 // Token returned id EGLD -> issue Failed

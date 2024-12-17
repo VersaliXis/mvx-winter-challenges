@@ -137,7 +137,7 @@ A proof of token burning is accessible here: [`./output/8d.md`](https://github.c
 
 ---
 # 📅 7 December
-- ## Issue WINTER tokens
+- ## Issue SNOW tokens
 ### Use 
 ```Rust
 #[endpoint(issueTokenSnow)]
@@ -150,6 +150,13 @@ The smart contract allows any user to issue a new SNOW token by calling the `iss
 The user chooses initial supply.  
 It uses a callback in order to save the issued token identifier in a `SetMapper`
 
+#### Update
+Based on Decmber 14 challenge where the contract should be able to mint tokens, I added the following endpoint that should be called manually after issuance.  
+Check [this commit](https://github.com/VersaliXis/mvx-winter-challenges/commit/cffc933ac69ddf242ed85eb6207a1e063ab3b5ac) for details.
+```Rust
+#[endpoint(setLocalRoles)]
+fn set_local_roles(&self, token: TokenIdentifier) {}
+```
 ### Proof
 A proof of token issuance is accessible here:
 [`./output/7d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/7d.md)

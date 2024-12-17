@@ -18,7 +18,12 @@
     },
     "name": "TokenIssuerSc",
     "constructor": {
-        "inputs": [],
+        "inputs": [
+            {
+                "name": "issuer_address",
+                "type": "Address"
+            }
+        ],
         "outputs": []
     },
     "upgradeConstructor": {
@@ -27,9 +32,26 @@
     },
     "endpoints": [
         {
-            "docs": [
-                "Stores a set of (token_id, staked_amount) associated to an address"
-            ],
+            "name": "getIssuerAddress",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "getRewardToken",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
             "name": "getStakingPosition",
             "mutability": "readonly",
             "inputs": [
@@ -60,6 +82,28 @@
             ],
             "inputs": [],
             "outputs": []
+        },
+        {
+            "name": "setRewardToken",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "claimRewards",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token_id",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
         }
     ],
     "esdtAttributes": [],
@@ -73,7 +117,7 @@
                     "type": "BigUint"
                 },
                 {
-                    "name": "stake_block",
+                    "name": "last_interaction_block",
                     "type": "u64"
                 }
             ]

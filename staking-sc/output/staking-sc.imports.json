@@ -1,4 +1,8 @@
 [
+  "bigIntMul",
+  "bigIntSetInt64",
+  "bigIntSign",
+  "bigIntTDiv",
   "checkNoPayment",
   "getBlockNonce",
   "getNumArguments",
@@ -15,6 +19,7 @@
   "mBufferStorageLoad",
   "mBufferStorageStore",
   "mBufferToBigIntUnsigned",
+  "managedAsyncCall",
   "managedCaller",
   "managedGetMultiESDTCallValue",
   "managedSignalError",
