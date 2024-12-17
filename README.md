@@ -55,7 +55,8 @@ fn set_reward_token(&self, token_id: TokenIdentifier) {}
 6. The user claim his rewards in `SNOW-c9af3e` tokens by calling `claimRewards(WINTER-xx)` of `staking_sc.rs` contract
 
 ### Proof
-A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json) 
+A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json).
+You can check sample transactions here: [`./output/14d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/14d.md)
 
 ---
 # 📅 13 December
