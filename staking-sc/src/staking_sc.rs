@@ -30,7 +30,9 @@ pub trait TokenIssuerSc:
         self.issuer_address().set(issuer_address);
     }
 
+    
     #[upgrade]
+    #[only_owner]
     fn upgrade(&self) {}
 
     ///////// Storage ///////// 
@@ -69,6 +71,7 @@ pub trait TokenIssuerSc:
     
     /// Called to set a SNOW-xx as reward token
     #[endpoint(setRewardToken)]
+    #[only_owner]
     fn set_reward_token(&self, token_id: TokenIdentifier) {
         self.reward_token().set(token_id);
     }

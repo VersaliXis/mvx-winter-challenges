@@ -17,6 +17,7 @@ pub trait TokenIssuerSc:
     fn init(&self) {}
 
     #[upgrade]
+    #[only_owner]
     fn upgrade(&self) {}
 
     ///////// Storage ///////// 
@@ -76,6 +77,7 @@ pub trait TokenIssuerSc:
 
     /// Must be called before minting
     #[endpoint(setLocalRoles)]
+    #[only_owner]
     fn set_local_roles(&self, token: TokenIdentifier) {
         let roles_iter = [EsdtLocalRole::Mint, EsdtLocalRole::Burn,].into_iter();
         self.send().esdt_system_sc_proxy().set_special_roles(
