@@ -23,6 +23,41 @@ Rust and sc-meta should be installed.
 Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-tools/troubleshooting/rust-setup/#installing-rust-and-sc-meta)
 
 ---
+# 📅 14 December
+- ## Claim SNOW rewards
+### Use 
+```Rust
+// staking_sc.rs
+#[endpoint(claimRewards)]
+fn claim_rewards(&self, token_id: TokenIdentifier) {}
+```
+
+### Explanation
+The endpoint allows anyone who have staked a WINTER-xx token to claim daily rewrds in SNOW-xx tokens.  
+The `staking_sc.rs` contract uses a proxy to interact with the `token_issuer_sc.rs` contract.
+
+### Userflow
+1. The owner creates the `token_issuer_sc.rs` contract
+2. The owner issues a new SNOW token (e.g. `SNOW-c9af3e`) by calling `issueTokenSnow`
+3. The owner creates the `staking_sc.rs` contract with in argument the address of the issuer contract:
+```Rust
+// staking_sc.rs
+#[init]
+fn init(&self, issuer_address: ManagedAddress) {}
+```
+4. The owner calls `setRewardToken(SNOW-c9af3e)` to set reward token as `SNOW-c9af3e`
+```Rust
+// staking_sc.rs
+#[endpoint(setRewardToken)]
+fn set_reward_token(&self, token_id: TokenIdentifier) {}
+```
+5. The user stakes his WINTER by sending them to the endpoint `stakeTokenWinter(WINTER-xx)` of `staking_sc.rs` contract
+6. The user claim his rewards in `SNOW-c9af3e` tokens by calling `claimRewards(WINTER-xx)` of `staking_sc.rs` contract
+
+### Proof
+A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json) 
+
+---
 # 📅 13 December
 - ## Stake WINTER tokens
 ### Use 
