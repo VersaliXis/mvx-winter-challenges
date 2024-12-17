@@ -44,7 +44,7 @@ pub trait TokenIssuerSc:
         let _ = self.send().direct(&caller, &esdt_id, 0, &balance);
     }
 
-    /// Allow to issue a SNOW-xx token. Uses a callback to save the token id
+    /// Allows to issue a SNOW-xx token. Uses a callback to save the token id
     #[endpoint(issueTokenSnow)]
     #[payable("EGLD")]
     fn issue_token_snow(&self, amount: BigUint) {
@@ -84,7 +84,7 @@ pub trait TokenIssuerSc:
             roles_iter).async_call_and_exit();
     }
 
-    /// Allow to burn any amount of token specified
+    /// Allows to burn any amount of token specified
     #[endpoint(burnTokenSnow)]
     fn burn_token_snow(&self, token: TokenIdentifier, amount: BigUint) {
         require!(self.issued_tokens().contains(&token), "Invalid token ID");
@@ -107,8 +107,7 @@ pub trait TokenIssuerSc:
         let _ = self.send().esdt_local_mint(token, 0u64, amount);
     }
 
-    
-    
+
     ///////// Callbacks ///////// 
     #[callback]
     fn issue_token_callback(
