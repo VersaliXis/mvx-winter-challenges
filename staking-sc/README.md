@@ -12,7 +12,7 @@ It provides rewards in SNOW tokens.
 5. The user stakes his WINTER by sending them to the endpoint `stakeTokenWinter(WINTER-xx)` of `staking_sc.rs` contract
 6. The user claim his rewards in `SNOW-c9af3e` tokens by calling `claimRewards(WINTER-xx)` of `staking_sc.rs` contract
 
-## Setup
+## Setup
 
 ```Rust
 #[init]
