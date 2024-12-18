@@ -55,9 +55,11 @@ pub trait TokenIssuerSc:
     #[endpoint(stakeTokenWinter)]
     #[payable("*")]
     fn stake_token_winter(&self) {
+        let winter = ManagedBuffer::from("WINTER");
         //raises error if multiple esdt payments
         let payment = self.call_value().single_esdt();
         let token_id = payment.token_identifier;
+        require!(self.is_token(token_id.clone(), winter), "Not a WINTER token");
         let caller = self.blockchain().get_caller();
         let staking_pos = self.staking_position(&caller, &token_id);
         let amount = payment.amount;
@@ -73,21 +75,30 @@ pub trait TokenIssuerSc:
             staked_amount: new_stake
         };
         staking_pos.set(new_staking_pos);
+        if !staking_pos.is_empty() {
+            self.claim_rewards(token_id, OptionalValue::Some(caller));
+        }
     }
     
     /// Called to set a SNOW-xx as reward token
     #[endpoint(setRewardToken)]
     #[only_owner]
     fn set_reward_token(&self, token_id: TokenIdentifier) {
+        let snow = ManagedBuffer::from("SNOW");
+        require!(self.is_token(token_id.clone(), snow), "Not a SNOW token");
         self.reward_token().set(token_id);
     }
 
     /// Called by a WINTER-xx staker. Must specify on which WINTER token to claim.
     /// Rewards are calculated, and if not null, it calls the endpoint mintAndSend of the SNOW-xx issuer contract 
     #[endpoint(claimRewards)]
-    fn claim_rewards(&self, token_id: TokenIdentifier) {
+    fn claim_rewards(&self, token_id: TokenIdentifier, opt_dest_address: OptionalValue<ManagedAddress>) {
         require!(!self.reward_token().is_empty(), "No reward token set. Use setRewardToken");
         let caller = self.blockchain().get_caller();
+        let dest_address = match opt_dest_address {
+            OptionalValue::Some(address) => address,
+            OptionalValue::None => caller.clone(),
+        };
         let staking_pos_mapper = self.staking_position(&caller, &token_id);
         
         require!(!staking_pos_mapper.is_empty(), "You have not staked that token");
@@ -96,7 +107,7 @@ pub trait TokenIssuerSc:
         let current_block = self.blockchain().get_block_nonce();
         require!(current_block - last_interaction_block >= MIN_BLOCK_BEFORE_CLAIM, "You have to wait 1 day before claiming again.");
         let rewards = self.calculate_rewards(staking_pos);
-        self.mint_and_distribute_rewards_async(&rewards, &caller);
+        self.mint_and_distribute_rewards_async(&rewards, &dest_address);
     }
 
     fn calculate_rewards(&self, staking_position: StakingPositionObj<Self::Api>) -> BigUint {
@@ -122,4 +133,9 @@ pub trait TokenIssuerSc:
                 .async_call_and_exit();
     }
 
+    ///////// Tools ///////// 
+    fn is_token(&self, token: TokenIdentifier, substring_mb: ManagedBuffer) -> bool{
+        let ticker = token.ticker();
+        return substring_mb.eq(&ticker);
+    }
 }

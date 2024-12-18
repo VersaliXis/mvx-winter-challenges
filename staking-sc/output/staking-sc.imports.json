@@ -1,4 +1,5 @@
 [
+  "bigIntAdd",
   "bigIntMul",
   "bigIntSetInt64",
   "bigIntSign",
@@ -9,6 +10,7 @@
   "mBufferAppend",
   "mBufferAppendBytes",
   "mBufferCopyByteSlice",
+  "mBufferEq",
   "mBufferFinish",
   "mBufferFromBigIntUnsigned",
   "mBufferGetArgument",
@@ -22,6 +24,7 @@
   "managedAsyncCall",
   "managedCaller",
   "managedGetMultiESDTCallValue",
+  "managedOwnerAddress",
   "managedSignalError",
   "signalError"
 ]

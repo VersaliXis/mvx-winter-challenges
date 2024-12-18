@@ -88,6 +88,7 @@
                 "Called to set a SNOW-xx as reward token"
             ],
             "name": "setRewardToken",
+            "onlyOwner": true,
             "mutability": "mutable",
             "inputs": [
                 {
@@ -108,6 +109,11 @@
                 {
                     "name": "token_id",
                     "type": "TokenIdentifier"
+                },
+                {
+                    "name": "opt_dest_address",
+                    "type": "optional<Address>",
+                    "multi_arg": true
                 }
             ],
             "outputs": []
