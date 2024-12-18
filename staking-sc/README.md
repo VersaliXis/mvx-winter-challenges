@@ -22,14 +22,17 @@ fn init(&self, issuer_address: ManagedAddress) {}
 
 ## Endpoints
 - ### set_reward_token  
-Called to set a SNOW-xx as reward token
+Called by the owner to set a SNOW-xx as reward token.  
+Check if it is a SNOW token.
 ```Rust
 #[endpoint(setRewardToken)]
+#[only_owner]
 fn set_reward_token(&self, token_id: TokenIdentifier) {}
 ```
 - ### stakeTokenWinter
-Allows a user to stake any amount of WINTER-xx token  
-Can be called once per token, unless the user has fully unstaked the previous amount
+Allows a user to stake any amount of WINTER-xx token.  
+Check if token is a WINTER token.  
+Can be called once per token, unless the user has fully unstaked the previous amount.
 ```Rust
 #[endpoint(stakeTokenWinter)]
 #[payable("*")]
