@@ -1,6 +1,7 @@
 #![no_std]
 use core::future::ready;
 
+use __wasm__endpoints__::staking_position;
 use multiversx_sc::imports::*;
 multiversx_sc::derive_imports!();
 mod token_issuer_sc_proxy;
@@ -10,11 +11,12 @@ mod token_issuer_sc_proxy;
 pub struct StakingPositionObj<M: ManagedTypeApi> {
 	pub staked_amount: BigUint<M>,
     pub last_interaction_block: u64,
+    pub rewards_recipient: ManagedAddress<M>,
 }
 
 pub const BLOCKS_IN_DAY: u64 = 60 * 60 * 24 / 6;
-pub const MIN_BLOCK_BEFORE_CLAIM: u64 = BLOCKS_IN_DAY;
-pub const DAILY_RATE_PERCENTAGE: u64 = 1;
+pub const MIN_BLOCK_BEFORE_CLAIM: u64 = 1;
+pub const DAILY_RATE_PERCENTAGE: u64 = 100;
 pub const MAX_PERCENTAGE: u64 = 100;
 
 #[multiversx_sc::contract]
@@ -72,11 +74,13 @@ pub trait TokenIssuerSc:
         }
         let new_staking_pos = StakingPositionObj{
             last_interaction_block: current_block, 
-            staked_amount: new_stake
+            staked_amount: new_stake,
+            rewards_recipient: caller
         };
         staking_pos.set(new_staking_pos);
         if !staking_pos.is_empty() {
-            self.claim_rewards(token_id, OptionalValue::Some(caller));
+            // here we should claim for the user his reawrds or at least store pending rewards
+            //self.claim_rewards(token_id, OptionalValue::Some(caller));
         }
     }
     
@@ -95,19 +99,36 @@ pub trait TokenIssuerSc:
     fn claim_rewards(&self, token_id: TokenIdentifier, opt_dest_address: OptionalValue<ManagedAddress>) {
         require!(!self.reward_token().is_empty(), "No reward token set. Use setRewardToken");
         let caller = self.blockchain().get_caller();
+        let staking_pos_mapper = self.staking_position(&caller, &token_id);
+        require!(!staking_pos_mapper.is_empty(), "You have not staked that token");
+        
         let dest_address = match opt_dest_address {
             OptionalValue::Some(address) => address,
-            OptionalValue::None => caller.clone(),
+            OptionalValue::None => staking_pos_mapper.get().rewards_recipient,
         };
-        let staking_pos_mapper = self.staking_position(&caller, &token_id);
-        
-        require!(!staking_pos_mapper.is_empty(), "You have not staked that token");
+
         let staking_pos = staking_pos_mapper.get();
         let last_interaction_block = staking_pos.last_interaction_block;
         let current_block = self.blockchain().get_block_nonce();
-        require!(current_block - last_interaction_block >= MIN_BLOCK_BEFORE_CLAIM, "You have to wait 1 day before claiming again.");
         let rewards = self.calculate_rewards(staking_pos);
+
+        require!(current_block - last_interaction_block >= MIN_BLOCK_BEFORE_CLAIM, "You have to wait 1 day before claiming again.");
         self.mint_and_distribute_rewards_async(&rewards, &dest_address);
+    }
+
+    /// Only the staker can change rewards recipient
+    #[endpoint(changeRewardsRecipient)]
+    fn change_rewards_recipient(&self, staked_token: TokenIdentifier, new_recipient: ManagedAddress) {
+        let caller = self.blockchain().get_caller();
+        let staking_position = self.staking_position(&caller, &staked_token);
+        require!(!staking_position.is_empty(), "You have not staked that token");
+        let staking_data = staking_position.get();
+        let new_staking_position = StakingPositionObj {
+            last_interaction_block: staking_data.last_interaction_block, 
+            staked_amount: staking_data.staked_amount,
+            rewards_recipient: new_recipient
+        };
+        self.staking_position(&caller, &staked_token).set(new_staking_position);
     }
 
     fn calculate_rewards(&self, staking_position: StakingPositionObj<Self::Api>) -> BigUint {
@@ -119,7 +140,7 @@ pub trait TokenIssuerSc:
 
         let rewards = staking_position.staked_amount 
         * DAILY_RATE_PERCENTAGE/ MAX_PERCENTAGE * block_diff / BLOCKS_IN_DAY;
-        require!(&rewards >= &0, "Reward is null. Wait");
+        require!(&rewards > &0, "Reward is null. Wait");
         return rewards
     }
 

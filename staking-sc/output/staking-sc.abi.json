@@ -117,6 +117,21 @@
                 }
             ],
             "outputs": []
+        },
+        {
+            "name": "changeRewardsRecipient",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "staked_token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "new_recipient",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
         }
     ],
     "esdtAttributes": [],
@@ -132,6 +147,10 @@
                 {
                     "name": "last_interaction_block",
                     "type": "u64"
+                },
+                {
+                    "name": "rewards_recipient",
+                    "type": "Address"
                 }
             ]
         }
