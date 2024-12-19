@@ -23,12 +23,12 @@ pub trait TokenIssuerSc:
     ///////// Storage ///////// 
     #[view(getIssuedTokens)]
     #[storage_mapper("issuedTokens")]
-    // Stores each issued token associeted with the address of the endpoint issueTokenSnow caller
+    // Stores each issued token associeted with the address of the endpoint issueTokenGold caller
     fn issued_tokens(&self) -> SetMapper<TokenIdentifier>;
 
     #[view(getAccountState)]
     #[storage_mapper("accountState")]
-    // Stores each issued token associeted with the address of the endpoint issueTokenSnow caller
+    // Stores each issued token associeted with the address of the endpoint issueTokenGold caller
     fn account_state(&self, address: &ManagedAddress) -> SetMapper<IssueDataObj<Self::Api>>;
 
 
@@ -45,15 +45,14 @@ pub trait TokenIssuerSc:
         let _ = self.send().direct(&caller, &esdt_id, 0, &balance);
     }
 
-    /// Allows to issue a SNOW-xx token. Uses a callback to save the token id
-    /// The caller must send 0.5 EGLD
-    #[endpoint(issueTokenSnow)]
+    /// Allows to issue a GOLD-xx token. Uses a callback to save the token id
+    #[endpoint(issueTokenGold)]
     #[payable("EGLD")]
-    fn issue_token_snow(&self, amount: BigUint) {
+    fn issue_token_gold(&self, amount: BigUint) {
         require!(self.call_value().egld_value().clone_value() == BigUint::from(50_000_000_000_000_000u64), "Must pay 0.05 EGLD");
         let issue_cost = BigUint::from(50_000_000_000_000_000u64);
-        let token_display_name = ManagedBuffer::from("SnowToken");
-        let token_ticker = ManagedBuffer::from("SNOW");
+        let token_display_name = ManagedBuffer::from("GoldToken");
+        let token_ticker = ManagedBuffer::from("GOLD");
         let num_decimals: usize = 8;
         let initial_supply = amount;
         let caller = self.blockchain().get_caller();
@@ -76,8 +75,9 @@ pub trait TokenIssuerSc:
             .async_call_and_exit();
     }
 
-    /// Must be called to allow minting
+    /// Must be called before minting
     #[endpoint(setLocalRoles)]
+    #[only_owner]
     fn set_local_roles(&self, token: TokenIdentifier) {
         let roles_iter = [EsdtLocalRole::Mint, EsdtLocalRole::Burn,].into_iter();
         self.send().esdt_system_sc_proxy().set_special_roles(
@@ -87,24 +87,24 @@ pub trait TokenIssuerSc:
     }
 
     /// Allows to burn any amount of token specified
-    #[endpoint(burnTokenSnow)]
-    fn burn_token_snow(&self, token: TokenIdentifier, amount: BigUint) {
+    #[endpoint(burnTokenGold)]
+    fn burn_token_gold(&self, token: TokenIdentifier, amount: BigUint) {
         require!(self.issued_tokens().contains(&token), "Invalid token ID");
         require!(self.blockchain().get_sc_balance(&EgldOrEsdtTokenIdentifier::esdt(token.clone()), 0) >= amount, "Burn amount exceeds balance");
         self.send().esdt_local_burn(&token, 0u64, &amount);
     }
 
     /// Allows to mint and send minted tokens to an address
-    #[endpoint(mintAndSendTokenSnow)]
-    fn mint_and_send_token_snow(&self, token: &TokenIdentifier, amount: &BigUint, to: &ManagedAddress){
-        self.mint_token_snow(token, amount);
+    #[endpoint(mintAndSendTokenGold)]
+    fn mint_and_send_token_gold(&self, token: &TokenIdentifier, amount: &BigUint, to: &ManagedAddress){
+        self.mint_token_gold(token, amount);
         self.send().direct_esdt(to, token, 0u64, amount);
     }
 
-    /// Allows to mint a SNOW-xx token
+    /// Allows to mint a GOLD-xx token
     /// Must have called setLocalRoles before
-    #[endpoint(mintTokenSnow)]
-    fn mint_token_snow(&self, token: &TokenIdentifier ,amount: &BigUint) {
+    #[endpoint(mintTokenGold)]
+    fn mint_token_gold(&self, token: &TokenIdentifier ,amount: &BigUint) {
         require!(self.issued_tokens().contains(token), "You must issue before minting");
         let _ = self.send().esdt_local_mint(token, 0u64, amount);
     }

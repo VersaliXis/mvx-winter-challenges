@@ -21,7 +21,7 @@ fn init(&self, issuer_address: ManagedAddress) {}
 ```
 
 ## Endpoints
-- ### set_reward_token  
+- ### setRewardToken  
 Called by the owner to set a SNOW-xx as reward token.  
 Check if it is a SNOW token.
 ```Rust
@@ -46,7 +46,13 @@ Rewards are calculated, and if not null, it calls the endpoint mintAndSend of th
 #[endpoint(claimRewards)]
 fn claim_rewards(&self, token_id: TokenIdentifier) {}
 ```
-
+- ### changeRewardsRecipient
+Allows any staker to set another address as reward recipient.   
+The staker is still the owner of the staking position, so he is still the only allowed to call `claimRewards` but rewards will be sent the new address.
+```Rust
+#[endpoint(changeRewardsRecipient)]
+fn change_rewards_recipient(&self, staked_token: TokenIdentifier, new_recipient: ManagedAddress) {}
+```
 ## Storage
 
 ### issuerAddress

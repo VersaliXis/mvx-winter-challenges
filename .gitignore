@@ -4,12 +4,8 @@ wallets-test-only/*
 output-test-only/*
 output/deploy-testnet.interaction.json
 __pycache__
-token-issuer-sc/interactions
-token-issuer-sc/target
-token-issuer-sc/wasm
-token-issuer-sc/tests
-
-staking-sc/interactions
-staking-sc/target
-staking-sc/wasm
-staking-sc/tests
+interactions/
+target/
+wasm/
+tests/
+mxops_scenes

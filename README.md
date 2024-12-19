@@ -23,6 +23,40 @@ Rust and sc-meta should be installed.
 Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-tools/troubleshooting/rust-setup/#installing-rust-and-sc-meta)
 
 ---
+# Contract informations
+
+- ## Token Issuer contracts
+    - [docs](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/token-issuer-sc/README.md)
+    - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/token-issuer-sc)
+    - [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/token-issuer-sc/output/token-issuer-sc.abi.json)
+
+    This contract is also used to issue [Resources](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/resources-issuers)
+
+- ## Staking contract
+    - [docs](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/README.md)
+    - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/staking-sc)
+    - [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)
+
+---
+# 📅 15 December
+- ## Transfer Staking Rewards
+### Use 
+```Rust
+//staking-sc.rs
+#[endpoint(changeRewardsRecipient)]
+fn change_rewards_recipient(&self, staked_token: TokenIdentifier, new_recipient: ManagedAddress) {}
+```
+
+### Explanation
+The endpoint allows any staker to set another address as reward recipient.   
+The staker is still the owner of the staking position, so he is still the only allowed to call `claimRewards` but rewards will be sent the new address.
+
+### Proof
+A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)    
+You can check sample transactions here: [`./output/15d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/15d.md)
+
+
+---
 # 📅 14 December
 - ## Claim SNOW rewards
 ### Use 
@@ -77,8 +111,6 @@ Raises error:
 ### Proof
 A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)    
 You can check sample transactions here: [`./output/13d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/13d.md)
-
-
 ---
 # 📅 12 December
 - ## Leaderboard of WINTER holders

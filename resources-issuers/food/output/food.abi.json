@@ -1,0 +1,179 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.82.0",
+            "commitHash": "f6e511eec7342f59a25f7c0534f1dbea00d01b14",
+            "commitDate": "2024-10-15",
+            "channel": "Stable",
+            "short": "rustc 1.82.0 (f6e511eec 2024-10-15)"
+        },
+        "contractCrate": {
+            "name": "food",
+            "version": "0.0.0"
+        },
+        "framework": {
+            "name": "multiversx-sc",
+            "version": "0.54.6"
+        }
+    },
+    "name": "TokenIssuerSc",
+    "constructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "upgradeConstructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "getIssuedTokens",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<TokenIdentifier>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getAccountState",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<IssueDataObj>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Allow a user to claim the total amount of isued tokens"
+            ],
+            "name": "claimTokens",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "docs": [
+                "Allows to issue a FOOD-xx token. Uses a callback to save the token id"
+            ],
+            "name": "issueTokenFood",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "docs": [
+                "Must be called before minting"
+            ],
+            "name": "setLocalRoles",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "docs": [
+                "Allows to burn any amount of token specified"
+            ],
+            "name": "burnTokenFood",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "docs": [
+                "Allows to mint and send minted tokens to an address"
+            ],
+            "name": "mintAndSendTokenFood",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "to",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "docs": [
+                "Allows to mint a FOOD-xx token",
+                "Must have called setLocalRoles before"
+            ],
+            "name": "mintTokenFood",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "amount",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        }
+    ],
+    "esdtAttributes": [],
+    "hasCallback": true,
+    "types": {
+        "IssueDataObj": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "token",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "issued_amount",
+                    "type": "BigUint"
+                }
+            ]
+        }
+    }
+}

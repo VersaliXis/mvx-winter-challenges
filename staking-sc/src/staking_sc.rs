@@ -15,9 +15,15 @@ pub struct StakingPositionObj<M: ManagedTypeApi> {
 }
 
 pub const BLOCKS_IN_DAY: u64 = 60 * 60 * 24 / 6;
-pub const MIN_BLOCK_BEFORE_CLAIM: u64 = 1;
-pub const DAILY_RATE_PERCENTAGE: u64 = 100;
+pub const MIN_BLOCK_BEFORE_CLAIM: u64 = BLOCKS_IN_DAY; //1 epoch
+pub const DAILY_RATE_PERCENTAGE: u64 = 1;
 pub const MAX_PERCENTAGE: u64 = 100;
+
+pub const WOOD_COOLDOWN_BLOCKS: u64 = 600;
+pub const FOOD_COOLDOWN_BLOCKS: u64 = 1200;
+pub const STONE_COOLDOWN_BLOCKS: u64 = 1800;
+pub const GOLD_COOLDOWN_BLOCKS: u64 = 2400;
+
 
 #[multiversx_sc::contract]
 pub trait TokenIssuerSc:
