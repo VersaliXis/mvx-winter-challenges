@@ -1,7 +1,5 @@
 #![no_std]
-use core::future::ready;
 
-use __wasm__endpoints__::staking_position;
 use multiversx_sc::imports::*;
 multiversx_sc::derive_imports!();
 mod token_issuer_sc_proxy;
@@ -19,10 +17,11 @@ pub const MIN_BLOCK_BEFORE_CLAIM: u64 = BLOCKS_IN_DAY; //1 epoch
 pub const DAILY_RATE_PERCENTAGE: u64 = 1;
 pub const MAX_PERCENTAGE: u64 = 100;
 
-pub const WOOD_COOLDOWN_BLOCKS: u64 = 600;
-pub const FOOD_COOLDOWN_BLOCKS: u64 = 1200;
-pub const STONE_COOLDOWN_BLOCKS: u64 = 1800;
-pub const GOLD_COOLDOWN_BLOCKS: u64 = 2400;
+pub const WOOD_COOLDOWN_ROUNDS: u64 = 600;
+pub const FOOD_COOLDOWN_ROUNDS: u64 = 1200;
+pub const STONE_COOLDOWN_ROUNDS: u64 = 1800;
+pub const GOLD_COOLDOWN_ROUNDS: u64 = 2400;
+
 
 
 #[multiversx_sc::contract]
@@ -30,12 +29,22 @@ pub trait TokenIssuerSc:
 {   
     ///////// Proxy /////////
     #[proxy]
-    fn token_issuer_sc_proxy(&self, sc_address: ManagedAddress) -> token_issuer_sc_proxy::Proxy<Self::Api>;
+    fn token_issuer_proxy(&self, sc_address: ManagedAddress) -> token_issuer_sc_proxy::Proxy<Self::Api>;
 
     ///////// Setup ///////// 
     #[init]
-    fn init(&self, issuer_address: ManagedAddress) {
-        self.issuer_address().set(issuer_address);
+    fn init(&self, 
+        snow_issuer_address: ManagedAddress,
+        food_issuer_address: ManagedAddress,
+        gold_issuer_address: ManagedAddress,
+        wood_issuer_address: ManagedAddress,
+        stone_issuer_address: ManagedAddress
+    ) {
+        self.snow_issuer_address().set(snow_issuer_address);
+        self.resources_issuers_addresses(0u8).set(food_issuer_address);
+        self.resources_issuers_addresses(1u8).set(gold_issuer_address);
+        self.resources_issuers_addresses(2u8).set(wood_issuer_address);
+        self.resources_issuers_addresses(3u8).set(stone_issuer_address);
     }
 
     
@@ -44,10 +53,17 @@ pub trait TokenIssuerSc:
     fn upgrade(&self) {}
 
     ///////// Storage ///////// 
+    #[view(getSnowIssuerAddress)]
+    #[storage_mapper("snowIssuerAddress")]
+    fn snow_issuer_address(&self) -> SingleValueMapper<ManagedAddress>;
 
-    #[view(getIssuerAddress)]
-    #[storage_mapper("issuerAddress")]
-    fn issuer_address(&self) -> SingleValueMapper<ManagedAddress>;
+    /// 0:food
+    /// 1: gold
+    /// 2: stone
+    /// 3: wood
+    #[view(getResourcesIssuersAddresses)]
+    #[storage_mapper("resourcesIssuersAddresses")]
+    fn resources_issuers_addresses(&self, issuer_id: u8) -> SingleValueMapper<ManagedAddress>;
 
     #[view(getRewardToken)]
     #[storage_mapper("rewardToken")]
@@ -55,7 +71,14 @@ pub trait TokenIssuerSc:
 
     #[view(getStakingPosition)]
     #[storage_mapper("stakingPosition")]
-    fn staking_position(&self, address: &ManagedAddress, token_id: &TokenIdentifier) -> SingleValueMapper<StakingPositionObj<Self::Api>>;
+    fn staking_position(&self, address: &ManagedAddress, winter_token_id: &TokenIdentifier) 
+        -> SingleValueMapper<StakingPositionObj<Self::Api>>;
+
+    #[view(getResourceStatus)]
+    #[storage_mapper("resourceStatus")]
+    /// Stores last interaction block
+    fn ressource_status(&self, address: &ManagedAddress, winter_token_id: &TokenIdentifier, ressource_id: u8) 
+        -> SingleValueMapper<u64>;
 
     ///////// Endpoints ///////// 
     /// Allows a user to stake any amount of WINTER-xx token
@@ -102,21 +125,17 @@ pub trait TokenIssuerSc:
     /// Called by a WINTER-xx staker. Must specify on which WINTER token to claim.
     /// Rewards are calculated, and if not null, it calls the endpoint mintAndSend of the SNOW-xx issuer contract 
     #[endpoint(claimRewards)]
-    fn claim_rewards(&self, token_id: TokenIdentifier, opt_dest_address: OptionalValue<ManagedAddress>) {
+    fn claim_rewards(&self, token_id: TokenIdentifier) {
         require!(!self.reward_token().is_empty(), "No reward token set. Use setRewardToken");
         let caller = self.blockchain().get_caller();
         let staking_pos_mapper = self.staking_position(&caller, &token_id);
         require!(!staking_pos_mapper.is_empty(), "You have not staked that token");
         
-        let dest_address = match opt_dest_address {
-            OptionalValue::Some(address) => address,
-            OptionalValue::None => staking_pos_mapper.get().rewards_recipient,
-        };
-
+        let dest_address = staking_pos_mapper.get().rewards_recipient;
         let staking_pos = staking_pos_mapper.get();
         let last_interaction_block = staking_pos.last_interaction_block;
         let current_block = self.blockchain().get_block_nonce();
-        let rewards = self.calculate_rewards(staking_pos);
+        let rewards = self.calculate_snow_rewards(staking_pos);
 
         require!(current_block - last_interaction_block >= MIN_BLOCK_BEFORE_CLAIM, "You have to wait 1 day before claiming again.");
         self.mint_and_distribute_rewards_async(&rewards, &dest_address);
@@ -137,7 +156,7 @@ pub trait TokenIssuerSc:
         self.staking_position(&caller, &staked_token).set(new_staking_position);
     }
 
-    fn calculate_rewards(&self, staking_position: StakingPositionObj<Self::Api>) -> BigUint {
+    fn calculate_snow_rewards(&self, staking_position: StakingPositionObj<Self::Api>) -> BigUint {
         let current_block = self.blockchain().get_block_nonce();
         let block_diff = current_block - staking_position.last_interaction_block;
         if &block_diff <= &0 {
@@ -150,10 +169,67 @@ pub trait TokenIssuerSc:
         return rewards
     }
 
+    /// Resources managment ///
+    
+    #[endpoint(claimResourceReward)]
+    fn claim_resource_reward(&self, winter_token_id: TokenIdentifier, ressource_id: u8) {
+        let caller = self.blockchain().get_caller();
+        let rewards: BigUint = self.calculate_resource_rewards(
+            caller, winter_token_id, ressource_id
+        );
+
+        require!(&rewards > &0, "Rewards null. Must wait.");
+        self.mint_and_distribute_resource_rewards_async(&rewards, &ressource_id);
+    }
+
+    fn calculate_resource_rewards(&self, 
+        staker: ManagedAddress, 
+        winter_token_id: TokenIdentifier, 
+        ressource_id: u8) -> BigUint
+    {
+        let current_round = self.blockchain().get_block_nonce();
+        let round_diff = self.ressource_status(&staker, &winter_token_id, ressource_id).get() - current_round;
+        let winter_staked_amount = self.staking_position(&staker, &winter_token_id).get().staked_amount;
+        let winter_amount_treshold = BigUint::from(100_000_000_000u64);
+        let mut rewards = BigUint:: zero();
+        match ressource_id {
+            //Food
+            0u8 => {
+                rewards = winter_staked_amount * round_diff / 600u64 / winter_amount_treshold;
+            },
+            //Gold
+            1u8 => {
+                rewards = winter_staked_amount * round_diff / 2400u64 / winter_amount_treshold;
+            },
+            //Stone
+            2u8 => {
+                rewards = winter_staked_amount * round_diff / 1800u64 / winter_amount_treshold;
+            },
+            //Wood
+            3u8 => {
+                rewards = winter_staked_amount * round_diff / 600u64 / winter_amount_treshold;
+            },
+            _ => {
+                rewards = BigUint::zero();
+            }
+        }
+        rewards
+    }
+    
     /// Calls by the proxy the SNOW-xx issuer contract
+    /// Change ressource issuer _> only 1 token
     fn mint_and_distribute_rewards_async(&self, rewards: &BigUint, address: &ManagedAddress) {
-        let proxy_address = self.issuer_address().get();
-        let mut proxy_instance = self.token_issuer_sc_proxy(proxy_address);
+        let proxy_address = self.snow_issuer_address().get();
+        let mut proxy_instance = self.token_issuer_proxy(proxy_address);
+        let rewards_token = self.reward_token().get();
+        proxy_instance
+                .mint_and_send_token_snow(rewards_token, rewards, address)
+                .async_call_and_exit();
+    }
+
+    fn mint_and_distribute_resource_rewards_async(&self, rewards: &BigUint, address: &ManagedAddress, resource_id: u8) {
+        let proxy_address = self.resources_issuers_addresses(resource_id).get();
+        let mut proxy_instance = self.token_issuer_proxy(proxy_address);
         let rewards_token = self.reward_token().get();
         proxy_instance
                 .mint_and_send_token_snow(rewards_token, rewards, address)
