@@ -11,13 +11,19 @@ It keeps track of the staked amount and the date of staking.
 3. The owner creates the `staking_sc.rs` contract with in argument the address of the issuer contract
 4. The owner calls `setRewardToken(SNOW-c9af3e)` to set reward token as `SNOW-c9af3e`
 5. The user stakes his WINTER by sending them to the endpoint `stakeTokenWinter(WINTER-xx)` of `staking_sc.rs` contract
-6. The user claim his rewards in `SNOW-c9af3e` tokens by calling `claimRewards(WINTER-xx)` of `staking_sc.rs` contract
-
+6. The user claims his rewards in `SNOW-c9af3e` tokens by calling `claimRewards(WINTER-xx)` of `staking_sc.rs` contract
+7. The user claims his resource rewards (in `FOOD`: 0, `GOLD`: 1 , `STONE`: 2 or `WOOD`: 3) tokens by calling `claimResourceRewards(WINTER-xx, [resourceId])` of `staking_sc.rs` contract
 ## Setup
 
 ```Rust
 #[init]
-fn init(&self, issuer_address: ManagedAddress) {}
+fn init(&self, 
+        snow_issuer_address: ManagedAddress,
+        food_issuer_address: ManagedAddress,
+        gold_issuer_address: ManagedAddress,
+        stone_issuer_address: ManagedAddress,
+        wood_issuer_address: ManagedAddress
+    ) {}
 ```
 
 ## Endpoints
@@ -46,6 +52,14 @@ Rewards are calculated, and if not null, it calls the endpoint mintAndSend of th
 #[endpoint(claimRewards)]
 fn claim_rewards(&self, token_id: TokenIdentifier) {}
 ```
+
+- ### claimResourceRewards
+Given the resource id and the staked winter id, allows to claim reward. (food: 0 ; gold: 1 ; stone: 2 ; wood: 3)
+```Rust
+#[endpoint(claimResourceReward)]
+fn claim_resource_reward(&self, winter_token_id: TokenIdentifier, ressource_id: &u8) {}
+```
+
 - ### changeRewardsRecipient
 Allows any staker to set another address as reward recipient.   
 The staker is still the owner of the staking position, so he is still the only allowed to call `claimRewards` but rewards will be sent the new address.

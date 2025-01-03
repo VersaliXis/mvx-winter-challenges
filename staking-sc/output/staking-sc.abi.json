@@ -20,7 +20,23 @@
     "constructor": {
         "inputs": [
             {
-                "name": "issuer_address",
+                "name": "snow_issuer_address",
+                "type": "Address"
+            },
+            {
+                "name": "food_issuer_address",
+                "type": "Address"
+            },
+            {
+                "name": "gold_issuer_address",
+                "type": "Address"
+            },
+            {
+                "name": "wood_issuer_address",
+                "type": "Address"
+            },
+            {
+                "name": "stone_issuer_address",
                 "type": "Address"
             }
         ],
@@ -32,9 +48,30 @@
     },
     "endpoints": [
         {
-            "name": "getIssuerAddress",
+            "name": "getSnowIssuerAddress",
             "mutability": "readonly",
             "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "0:food",
+                "1: gold",
+                "2: stone",
+                "3: wood"
+            ],
+            "name": "getResourcesIssuersAddresses",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "issuer_id",
+                    "type": "u8"
+                }
+            ],
             "outputs": [
                 {
                     "type": "Address"
@@ -60,13 +97,39 @@
                     "type": "Address"
                 },
                 {
-                    "name": "token_id",
+                    "name": "winter_token_id",
                     "type": "TokenIdentifier"
                 }
             ],
             "outputs": [
                 {
                     "type": "StakingPositionObj"
+                }
+            ]
+        },
+        {
+            "docs": [
+                "Stores last interaction block"
+            ],
+            "name": "getResourceStatus",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "winter_token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "ressource_id",
+                    "type": "u8"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u64"
                 }
             ]
         },
@@ -109,16 +172,14 @@
                 {
                     "name": "token_id",
                     "type": "TokenIdentifier"
-                },
-                {
-                    "name": "opt_dest_address",
-                    "type": "optional<Address>",
-                    "multi_arg": true
                 }
             ],
             "outputs": []
         },
         {
+            "docs": [
+                "Only the staker can change rewards recipient"
+            ],
             "name": "changeRewardsRecipient",
             "mutability": "mutable",
             "inputs": [
@@ -129,6 +190,24 @@
                 {
                     "name": "new_recipient",
                     "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "docs": [
+                "Resources managment ///"
+            ],
+            "name": "claimResourceReward",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "winter_token_id",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "ressource_id",
+                    "type": "u8"
                 }
             ],
             "outputs": []
@@ -151,6 +230,22 @@
                 {
                     "name": "rewards_recipient",
                     "type": "Address"
+                },
+                {
+                    "name": "last_food_date",
+                    "type": "u64"
+                },
+                {
+                    "name": "last_gold_date",
+                    "type": "u64"
+                },
+                {
+                    "name": "last_stone_date",
+                    "type": "u64"
+                },
+                {
+                    "name": "last_wood_date",
+                    "type": "u64"
                 }
             ]
         }

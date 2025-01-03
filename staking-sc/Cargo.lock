@@ -843,9 +843,11 @@ dependencies = [
 name = "staking-sc"
 version = "0.0.0"
 dependencies = [
+ "hex",
  "multiversx-sc",
  "multiversx-sc-scenario",
  "num-bigint",
+ "num-traits",
 ]
 
 [[package]]

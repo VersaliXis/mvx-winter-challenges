@@ -1,5 +1,6 @@
 [
   "bigIntAdd",
+  "bigIntCmp",
   "bigIntMul",
   "bigIntSetInt64",
   "bigIntSign",
@@ -26,5 +27,7 @@
   "managedGetMultiESDTCallValue",
   "managedOwnerAddress",
   "managedSignalError",
-  "signalError"
+  "signalError",
+  "smallIntFinishUnsigned",
+  "smallIntGetUnsignedArgument"
 ]
