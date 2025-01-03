@@ -25,17 +25,54 @@ Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-too
 ---
 # Contract informations
 
-- ## Token Issuer contracts
+- ## Resource Issuer contract
+    - [docs](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/resource-issuer-sc/README.md)
+    - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/resource-issuer-sc)
+    - [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/resource-issuer-sc/output/resource-issuer.abi.json)
+
+- ## Token Issuer contract
     - [docs](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/token-issuer-sc/README.md)
     - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/token-issuer-sc)
     - [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/token-issuer-sc/output/token-issuer-sc.abi.json)
-
-    This contract is also used to issue [Resources](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/resources-issuers)
 
 - ## Staking contract
     - [docs](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/README.md)
     - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/staking-sc)
     - [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)
+
+
+---
+# 📅 16 December
+- ## Resource Issuer Contracts
+### Use 
+```Rust
+//resource_issuer.rs
+#[init]
+fn init(&self, name: ManagedBuffer, ticker: ManagedBuffer) {}
+```
+
+### Explanation
+This contract allows the owner to issue a resource token.  
+It allows also to mint and send to an address.
+
+### Userflow
+1. The owner creates one `token_issuer_sc.rs` contract for each resource. 
+2. The user stakes at least 1000 `SNOW` tokens.
+3. The user can claim each resource if specific cooldown is verified by calling the `claimResourceReward` endpoint.
+```Rust
+/// Resources id:
+/// 0: food
+/// 1: gold
+/// 2: stone
+/// 3: wood
+#[endpoint(claimResourceReward)]
+    fn claim_resource_reward(&self, winter_token_id: TokenIdentifier, ressource_id: &u8) {}
+```
+### Proof
+- [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/staking-sc)
+- [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)   
+---
+
 
 ---
 # 📅 15 December
@@ -52,11 +89,11 @@ The endpoint allows any staker to set another address as reward recipient.
 The staker is still the owner of the staking position, so he is still the only allowed to call `claimRewards` but rewards will be sent the new address.
 
 ### Proof
-A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)    
+A proof is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)    
 You can check sample transactions here: [`./output/15d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/15d.md)
 
-
 ---
+
 # 📅 14 December
 - ## Claim SNOW rewards
 ### Use 
@@ -111,6 +148,8 @@ Raises error:
 ### Proof
 A proof of is accessible here: [`./staking-sc/staking-sc.abi.json`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)    
 You can check sample transactions here: [`./output/13d.md`](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/13d.md)
+
+
 ---
 # 📅 12 December
 - ## Leaderboard of WINTER holders
