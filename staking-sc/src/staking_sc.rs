@@ -22,10 +22,10 @@ pub const DAILY_RATE_PERCENTAGE: u64 = 1;
 pub const MAX_PERCENTAGE: u64 = 100;
 
 
-pub const FOOD_COOLDOWN_ROUNDS: u64 = 10; //0
-pub const GOLD_COOLDOWN_ROUNDS: u64 = 30; //1
-pub const STONE_COOLDOWN_ROUNDS: u64 = 20; //2
-pub const WOOD_COOLDOWN_ROUNDS: u64 = 1; //3
+pub const FOOD_COOLDOWN_ROUNDS: u64 = 1200; //0
+pub const GOLD_COOLDOWN_ROUNDS: u64 = 2400; //1
+pub const STONE_COOLDOWN_ROUNDS: u64 = 1800; //2
+pub const WOOD_COOLDOWN_ROUNDS: u64 = 600; //3
 
 
 
