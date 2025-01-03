@@ -42,7 +42,7 @@ Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-too
 
 
 ---
-# 📅 16 December
+# 📅 16, 17 December
 - ## Resource Issuer Contracts
 ### Use 
 ```Rust
