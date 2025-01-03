@@ -71,8 +71,7 @@ It allows also to mint and send to an address.
 ### Proof
 - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/staking-sc)
 - [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)   
----
-
+- you can find sample interactions [here](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/16d.md)
 
 ---
 # 📅 15 December
