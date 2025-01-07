@@ -66,7 +66,7 @@ It allows anyone to mint a character NFT.
 
 ### Proof
 - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/character-sc)
-- [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/character-sc.abi.json)   
+- [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/character-sc/output/character-sc.abi.json) 
 - you can find sample interactions [here](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/18d.md)
 ---
 
