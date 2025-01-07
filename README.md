@@ -40,6 +40,36 @@ Follow instructions on [MultiversX docs](https://docs.multiversx.com/sdk-and-too
     - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/staking-sc)
     - [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)
 
+- ## Character(Citizens...) issuer contract
+    - [docs](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/character-sc/README.md)
+    - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/character-sc)
+    - [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/character-sc/output/character-sc.abi.json)
+
+---
+# 📅 18 December
+- ## Character(Citizens...) Issuer Contracts
+### Use 
+```Rust
+//character-sc.rs
+#[init]
+fn init(&self, name: ManagedBuffer, ticker: ManagedBuffer) {}
+```
+
+### Explanation
+This contract allows the owner to issue a character NFT (e.g. CITIZEN).  
+It allows anyone to mint a character NFT.
+
+### Userflow
+1. The owner creates one `character_sc.rs` contract. 
+2. The user ask for character creation by sending 10 `WOOD` and 15 `FOOD`.
+3. The user can claim his requested character after 1 hour.
+
+### Proof
+- [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/character-sc)
+- [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/character-sc.abi.json)   
+- you can find sample interactions [here](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/18d.md)
+---
+
 
 ---
 # 📅 16, 17 December
@@ -72,8 +102,8 @@ It allows also to mint and send to an address.
 - [code](https://github.com/VersaliXis/mvx-winter-challenges/tree/main/staking-sc)
 - [abi](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/staking-sc/output/staking-sc.abi.json)   
 - you can find sample interactions [here](https://github.com/VersaliXis/mvx-winter-challenges/blob/main/output/16d.md)
-
 ---
+
 # 📅 15 December
 - ## Transfer Staking Rewards
 ### Use 
