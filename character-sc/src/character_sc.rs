@@ -104,7 +104,8 @@ pub trait Character {
     }
 
     //Allows a user to ask for a character creation
-    //The user mus not have another NFT creation pending.
+    //The user must not have another NFT creation pending.
+    //The user must send 10 WOOD and 15 FOOD
     #[endpoint(createCharacter)]
     #[payable("*")]
     fn create_character(&self) {

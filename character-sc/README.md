@@ -36,6 +36,7 @@ fn set_local_roles(&self){}
 - ### createCharacter  
 Allows a user to ask for a NFT creation.  
 This user must not have another NFT creation pending.  
+The user must send 10 WOOD and 15 FOOD.  
 He has to wait 1 hour before claiming.
 ```Rust
 #[endpoint(createCharacter)]
