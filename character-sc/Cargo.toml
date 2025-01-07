@@ -1,0 +1,27 @@
+[package]
+name = "character-sc"
+version = "0.0.0"
+publish = false
+edition = "2021"
+authors = ["you"]
+
+[lib]
+path = "src/character_sc.rs"
+[dependencies.multiversx-sc]
+version = "0.54.4"
+
+[dev-dependencies]
+num-bigint = "0.4"
+
+[dev-dependencies.multiversx-sc-scenario]
+version = "0.54.4"
+
+[dependencies.multiversx-sc-modules]
+version = "0.54.6"
+
+
+[workspace]
+members = [
+    ".",
+    "meta",
+]
